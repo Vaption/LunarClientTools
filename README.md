@@ -5,7 +5,7 @@
     <strong>Simple batch script to automate particular <a href="https://lunarclient.com">LunarClient</a> tasks</strong>
 </p>
 <p align="center">
-    <img align=center src=".github/images/lctbanner.png" width="500" alt="banner"></br>
+    <img align=center src=".github/images/lctbanner.png" width="800" alt="banner"></br>
 </p>
 
   ## What is LCT?
