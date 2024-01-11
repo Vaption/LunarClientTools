@@ -9,5 +9,5 @@
 </p>
 
   ## What is LCT?
-  LunarClient Tools is a simple batch script to automate few tasks related to the client, </br> which you are already able to do manually, by going through the files. </br> The current release of LCT (?.?.?) provides the following commands: </br>
+  **LunarClient Tools** is a simple batch script to automate few tasks related to the client, which </br> you are already able to do manually, by going through the files. </br> The current release of LCT (?.?.?) provides the following commands: </br>
   - soon
