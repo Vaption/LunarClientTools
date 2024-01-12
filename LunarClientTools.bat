@@ -34,20 +34,30 @@ echo 1. Deep Uninstall
 echo 2. Clear Cache Files
 echo 3. Clear Logs Directory
 echo 4. Navigate to .lunarclient
-echo 5. Backup and Save your Profiles
-echo 6. Exit
+echo 5. Delete LunarClient's Jre
+echo 6. Delete the Offline Folder
+echo 7. Fix Launcher Startup Issue
+echo 8. Backup and Save your Profiles
+echo 9. Switch to Dedicated GPU on LunarClient
+echo 10. Permanently Run LunarClient as Administrator
+echo 11. Exit
 echo.
-set /P M=Type 1-6 and then press enter:
+set /P M=Type 1-11 and then press enter:
 if %M%==1 goto :deep-unins
 if %M%==2 goto :cache-rem
 if %M%==3 goto :logs-rem
-if %M%==4 goto :lcfolder
-if %M%==5 goto :prf-backup
-if %M%==6 goto :kill
+if %M%==4 goto :lc-folder
+if %M%==5 goto :jre-rem
+if %M%==6 goto :ofl-rem
+if %M%==7 goto :lc-comp
+if %M%==8 goto :prf-backup
+if %M%==9 goto :igpu-dgpu
+if %M%==10 goto :lc-admin
+if %M%==11 goto :kill
 
 @ECHO ON
 
-:lcfolder
+:lc-folder
 echo.
 echo.
 echo.
