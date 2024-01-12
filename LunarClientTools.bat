@@ -4,10 +4,10 @@
 NET SESSION >nul 2>&1
 IF %ERRORLEVEL% EQU 0 (
 
-echo ==     Administrator Privileges Detected, Running...       ==
+echo.
 ) ELSE (
 
-echo "########### ERROR - ADMINISTRATOR PRIVILEGES REQUIRED #############"
+echo "############################# ERROR ###############################"
 echo "#                                                                 #"
 echo "#   This script must be run as administrator to work properly.    #"
 echo "#   Right click on the script and select Run As Administrator     #"
