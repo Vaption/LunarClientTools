@@ -22,18 +22,22 @@ EXIT /B 1
 GOTO :windows-version
 
 :windows-version
-set wmic os get version=VERSION
-IF %VERSION%  EQU 10.* (
-
-    GOTO :menu
-) ELSE (
-    IF %VERSION% EQU 11.* (
-        GOTO :menu
-    ) ELSE (
-        GOTO :windows-error
-    )
+SETLOCAL ENABLEDELAYEDEXPANSION
+SET count=1
+FOR /F "tokens=* USEBACKQ" %%F IN (`wmic os get version`) DO (
+SET varver!count!=%%F
+SET /a count=!count!+1
 )
-
+IF %varver2% EQU 10 (
+    goto :menu) ELSE (
+        IF %varver2% EQU 11 (
+            goto :menu) ELSE (
+                goto:windows-error
+            )
+        )
+    )
+ENDLOCAL
+pause
 
 GOTO :menu
 
@@ -227,11 +231,10 @@ exit
 :windows-error
 echo [90m#############################[0m [31mERROR[0m [90m###############################[0m
 echo [90m#[0m                                                                 [90m#[0m
-echo [90m#[0m   [91mThis script only works on Windows 10 and 11.[0m    [90m#[0m
-echo [90m#[0m   [91mYour current Windows version is not supported[0m     [90m#[0m
-echo [90m#[0  [91mIf you believe this is an issue, open an issue on Github  [0m[90m#[0m
+echo [90m#[0m          [91mThis script only works on Windows 10 and 11.[0m           [90m#[0m
+echo [90m#[0m         [91mYour current Windows version is not supported[0m           [90m#[0m
+echo [90m#[0m     [91mIf you believe this is an issue, open an issue on Github[0m    [90m#[0m
 echo [90m###################################################################[0m
 echo.
 echo.
-
 PAUSE
