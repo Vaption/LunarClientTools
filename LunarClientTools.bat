@@ -28,18 +28,11 @@ FOR /F "tokens=* USEBACKQ" %%F IN (`wmic os get version`) DO (
 SET varver!count!=%%F
 SET /a count=!count!+1
 )
-IF %varver2% EQU 10 (
+IF %varver2% GEQ 10.* (
     goto :menu) ELSE (
-        IF %varver2% EQU 11 (
-            goto :menu) ELSE (
-                goto:windows-error
-            )
+        goto :windows-error
         )
-    )
 ENDLOCAL
-pause
-
-GOTO :menu
 
 :menu 
 echo [90m###################################################################[0m

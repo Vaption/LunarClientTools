@@ -11,10 +11,9 @@
   ## What is LCT?
   **LunarClient Tools** is a simple batch script to automate few tasks related to the client, which </br> you are already able to do manually (by going through the files). The current release of LCT provides the following commands: </br>
   - Deep Uninstall ❌
-  - Clear Cache Files ❌
-  - Clear Logs Directory ❌
+  - Clear Cache/Logs ✔️
+  - Delete offline/JRE ✔️
   - Navigate to .lunarclient ✔️
-  - Delete the Offline Folder ✔️
   - Fix Launcher Startup Issue ❌
   - Backup and Save your Profiles ✔️
   - Switch to Dedicated GPU on LunarClient ❌
