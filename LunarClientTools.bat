@@ -7,11 +7,11 @@ IF %ERRORLEVEL% EQU 0 (
 echo.
 ) ELSE (
 
-echo "############################# ERROR ###############################"
-echo "#                                                                 #"
-echo "#   This script must be run as administrator to work properly.    #"
-echo "#   Right click on the script and select Run As Administrator     #"
-echo "###################################################################"
+echo [90m#############################[0m [31mERROR[0m [90m###############################[0m
+echo [90m#[0m                                                                 [90m#[0m
+echo [90m#[0m   [91mThis script must be run as administrator to work properly.[0m    [90m#[0m
+echo [90m#[0m   [91mRight click on the script and select Run As Administrator[0m     [90m#[0m
+echo [90m###################################################################[0m
 echo.
 echo.
 
@@ -22,27 +22,26 @@ EXIT /B 1
 GOTO :menu
 
 :menu 
-echo =============================================================
-echo ==               Lunar Client Tools Script                 ==
-echo ==       https://github.com/Vaption/LunarClientTools       ==
-echo ============================================================= 
+echo [90m###################################################################[0m
+echo [90m##[0m                  [96mLunar Client Tools Script[0m                    [90m##[0m
+echo [90m##[0m          [36mhttps://github.com/Vaption/LunarClientTools[0m          [90m##[0m
+echo [90m###################################################################[0m
 echo.
+echo [92mWhat are you trying to do?[0m
 echo.
-echo What are you trying to do?
+echo [91m1.[0m [97mDeep Uninstall[0m
+echo [91m2.[0m [97mClear Cache Files[0m
+echo [91m3.[0m [97mClear Logs Directory[0m
+echo [91m4.[0m [97mNavigate to .lunarclient[0m
+echo [91m5.[0m [97mDelete LunarClient's Jre[0m
+echo [91m6.[0m [97mDelete the Offline Folder[0m
+echo [91m7.[0m [97mFix Launcher Startup Issue[0m
+echo [91m8.[0m [97mBackup and Save your Profiles[0m
+echo [91m9.[0m [97mSwitch to Dedicated GPU on LunarClient[0m
+echo [91m10.[0m [97mPermanently Run LunarClient as Administrator[0m
+echo [91m11.[0m [97mExit[0m
 echo.
-echo 1. Deep Uninstall
-echo 2. Clear Cache Files
-echo 3. Clear Logs Directory
-echo 4. Navigate to .lunarclient
-echo 5. Delete LunarClient's Jre
-echo 6. Delete the Offline Folder
-echo 7. Fix Launcher Startup Issue
-echo 8. Backup and Save your Profiles
-echo 9. Switch to Dedicated GPU on LunarClient
-echo 10. Permanently Run LunarClient as Administrator
-echo 11. Exit
-echo.
-set /P M=Type 1-11 and then press enter:
+set /P M=[96mType[0m [91m1-11[0m [96mand then press enter[0m[91m:[0m
 if %M%==1 goto :deep-unins
 if %M%==2 goto :cache-rem
 if %M%==3 goto :logs-rem
