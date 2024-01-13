@@ -1,5 +1,5 @@
 @ECHO OFF
-
+TITLE LunarClientTools v1.0
 
 NET SESSION >nul 2>&1
 IF %ERRORLEVEL% EQU 0 (
@@ -153,7 +153,7 @@ goto :menu
 echo.
 echo.
 echo.
-reg.exe Add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" /v "c:\Users\"%username%"\AppData\Local\Programs\lunarclient\Lunar Client.exe" /d "~ WIN8RTM"
+reg Add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" /v "c:\Users\%username%\AppData\Local\Programs\lunarclient\Lunar Client.exe" /d "~ WIN8RTM"
 echo [32mSuccessfully modified the launcher's compability settings.[0m
 echo.
 echo.
@@ -195,9 +195,29 @@ goto :menu
 echo.
 echo.
 echo.
-%SystemRoot%\explorer.exe "%userprofile%\.lunarclient\"
-echo [32mSuccessfully opened .lunarclient in a new window.[0m
-echo.
+@echo off
+set "root_directory=C:\Users\%username%\.lunarclient\jre\"
+set "javaw_path="
+
+:findjavaw
+for /d %%i in ("%root_directory%\*") do (
+    if exist "%%i\bin\javaw.exe" (
+        set "javaw_path=%%i\bin\"
+        goto :validatejavaw
+    )
+    set "root_directory=%%i"
+    goto :findjavaw
+)
+
+:validatejavaw
+if defined javaw_path (
+    reg Add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\DirectX\UserGpuPreferences" /v "%javaw_path%javaw.exe" /d "GpuPreference=2;" /f
+    color 0A
+    echo Successfully switched LunarClient's GPU on High-Performance.
+) else (
+    color 0C
+    echo LCT was unable to locate javaw.exe, relaunch the game for the file to be redownloaded.
+)
 echo.
 echo.
 pause
@@ -208,8 +228,8 @@ goto :menu
 echo.
 echo.
 echo.
-%SystemRoot%\explorer.exe "%userprofile%\.lunarclient\"
-echo [32mSuccessfully opened .lunarclient in a new window.[0m
+reg Add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" /v "c:\Users\%username%\AppData\Local\Programs\lunarclient\Lunar Client.exe" /d "RUNASADMIN"
+echo [32mSuccessfully forced LunarClient to run as admin everytime.[0m
 echo.
 echo.
 echo.
