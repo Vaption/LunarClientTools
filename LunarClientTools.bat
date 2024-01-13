@@ -56,12 +56,90 @@ if %M%==11 goto :kill
 
 @ECHO ON
 
+:deep-unins
+echo.
+echo.
+echo.
+%SystemRoot%\explorer.exe "%userprofile%\.lunarclient\"
+echo [32mSuccessfully opened .lunarclient in a new window.[0m
+echo.
+echo.
+echo.
+pause
+cls
+goto :menu
+
+:cache-rem
+echo.
+echo.
+echo.
+%SystemRoot%\explorer.exe "%userprofile%\.lunarclient\"
+echo [32mSuccessfully opened .lunarclient in a new window.[0m
+echo.
+echo.
+echo.
+pause
+cls
+goto :menu
+
+:logs-rem
+echo.
+echo.
+echo.
+%SystemRoot%\explorer.exe "%userprofile%\.lunarclient\"
+echo [32mSuccessfully opened .lunarclient in a new window.[0m
+echo.
+echo.
+echo.
+pause
+cls
+goto :menu
+
 :lc-folder
 echo.
 echo.
 echo.
 %SystemRoot%\explorer.exe "%userprofile%\.lunarclient\"
-echo Successfully opened .lunarclient in a new window.
+echo [32mSuccessfully opened .lunarclient in a new window.[0m
+echo.
+echo.
+echo.
+pause
+cls
+goto :menu
+
+:jre-rem
+echo.
+echo.
+echo.
+%SystemRoot%\explorer.exe "%userprofile%\.lunarclient\"
+echo [32mSuccessfully opened .lunarclient in a new window.[0m
+echo.
+echo.
+echo.
+pause
+cls
+goto :menu
+
+:ofl-rem
+echo.
+echo.
+echo.
+%SystemRoot%\explorer.exe "%userprofile%\.lunarclient\"
+echo [32mSuccessfully opened .lunarclient in a new window.[0m
+echo.
+echo.
+echo.
+pause
+cls
+goto :menu
+
+:lc-comp
+echo.
+echo.
+echo.
+%SystemRoot%\explorer.exe "%userprofile%\.lunarclient\"
+echo [32mSuccessfully opened .lunarclient in a new window.[0m
 echo.
 echo.
 echo.
@@ -88,9 +166,35 @@ del c:\Users\"%username%"\Desktop\LCT-Profiles\muted_users.json
 del c:\Users\"%username%"\Desktop\LCT-Profiles\rule-features.json
 del c:\Users\"%username%"\Desktop\LCT-Profiles\statistics.json
 del c:\Users\"%username%"\Desktop\LCT-Profiles\version
-echo Successfully copied your profiles to your desktop.
-echo File Path: c:\Users\"%username%"\Desktop\LCT-Profiles
+echo [32mSuccessfully copied your profiles to your desktop.[0m
+echo [92mFile Path: c:\Users\"%username%"\Desktop\LCT-Profiles[0m
 %SystemRoot%\explorer.exe "c:\Users\"%username%"\Desktop\LCT-Profiles\"
+echo.
+echo.
+echo.
+pause
+cls
+goto :menu
+
+:igpu-dgpu
+echo.
+echo.
+echo.
+%SystemRoot%\explorer.exe "%userprofile%\.lunarclient\"
+echo [32mSuccessfully opened .lunarclient in a new window.[0m
+echo.
+echo.
+echo.
+pause
+cls
+goto :menu
+
+:lc-admin
+echo.
+echo.
+echo.
+%SystemRoot%\explorer.exe "%userprofile%\.lunarclient\"
+echo [32mSuccessfully opened .lunarclient in a new window.[0m
 echo.
 echo.
 echo.
