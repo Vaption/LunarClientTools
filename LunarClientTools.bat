@@ -19,6 +19,22 @@ PAUSE
 EXIT /B 1
 )
 
+GOTO :windows-version
+
+:windows-version
+set wmic os get version=VERSION
+IF %VERSION%  EQU 10.* (
+
+    GOTO :menu
+) ELSE (
+    IF %VERSION% EQU 11.* (
+        GOTO :menu
+    ) ELSE (
+        GOTO :windows-error
+    )
+)
+
+
 GOTO :menu
 
 :menu 
@@ -33,7 +49,7 @@ echo [91m1.[0m [97mDeep Uninstall[0m
 echo [91m2.[0m [97mClear Cache Files[0m
 echo [91m3.[0m [97mClear Logs Directory[0m
 echo [91m4.[0m [97mNavigate to .lunarclient[0m
-echo [91m5.[0m [97mDelete LunarClient's Jre[0m
+echo [91m5.[0m [97mDelete LunarClient's JRE[0m
 echo [91m6.[0m [97mDelete the Offline Folder[0m
 echo [91m7.[0m [97mFix Launcher Startup Issue[0m
 echo [91m8.[0m [97mBackup and Save your Profiles[0m
@@ -73,8 +89,10 @@ goto :menu
 echo.
 echo.
 echo.
-%SystemRoot%\explorer.exe "%userprofile%\.lunarclient\"
-echo [32mSuccessfully opened .lunarclient in a new window.[0m
+del c:\Users\"%username%"\.lunarclient\game-cache\* /Q > nul
+del c:\Users\"%username%"\.lunarclient\launcher-cache\* /Q > nul
+del c:\Users\"%username%"\.lunarclient\offline\multiver\cache\* /Q > nul
+echo [32mSuccessfully deleted LunarClient cached files.[0m
 echo.
 echo.
 echo.
@@ -86,8 +104,8 @@ goto :menu
 echo.
 echo.
 echo.
-%SystemRoot%\explorer.exe "%userprofile%\.lunarclient\"
-echo [32mSuccessfully opened .lunarclient in a new window.[0m
+del c:\Users\"%username%"\.lunarclient\logs\* /Q > nul
+echo [32mSuccessfully cleared your game/launcher logs.[0m
 echo.
 echo.
 echo.
@@ -112,8 +130,8 @@ goto :menu
 echo.
 echo.
 echo.
-%SystemRoot%\explorer.exe "%userprofile%\.lunarclient\"
-echo [32mSuccessfully opened .lunarclient in a new window.[0m
+del c:\Users\"%username%"\.lunarclient\jre\* /Q > nul
+echo [32mSuccessfully deleted LunarClient's JRE.[0m
 echo.
 echo.
 echo.
@@ -125,8 +143,8 @@ goto :menu
 echo.
 echo.
 echo.
-%SystemRoot%\explorer.exe "%userprofile%\.lunarclient\"
-echo [32mSuccessfully opened .lunarclient in a new window.[0m
+del c:\Users\"%username%"\.lunarclient\offline\* /Q > nul
+echo [32mSuccessfully deleted LunarClient's offline folder.[0m
 echo.
 echo.
 echo.
@@ -204,3 +222,16 @@ goto :menu
 
 :kill
 exit
+
+@rem windows version incompatible error here
+:windows-error
+echo [90m#############################[0m [31mERROR[0m [90m###############################[0m
+echo [90m#[0m                                                                 [90m#[0m
+echo [90m#[0m   [91mThis script only works on Windows 10 and 11.[0m    [90m#[0m
+echo [90m#[0m   [91mYour current Windows version is not supported[0m     [90m#[0m
+echo [90m#[0  [91mIf you believe this is an issue, open an issue on Github  [0m[90m#[0m
+echo [90m###################################################################[0m
+echo.
+echo.
+
+PAUSE
