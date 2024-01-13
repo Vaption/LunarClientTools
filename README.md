@@ -14,9 +14,9 @@
   - Clear Cache/Logs ✔️
   - Delete offline/JRE ✔️
   - Navigate to .lunarclient ✔️
-  - Fix Launcher Startup Issue ❌
+  - Fix Launcher Startup Issue ✔️
   - Backup and Save your Profiles ✔️
-  - Switch to Dedicated GPU on LunarClient ❌
+  - Switch to Dedicated GPU on LunarClient ✔️
 
   ## License
 LunarClient Tools is licensed under the <a href="https://github.com/Vaption/LunarClientTools/blob/main/LICENSE">MIT license</a>.
