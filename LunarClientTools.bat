@@ -153,8 +153,8 @@ goto :menu
 echo.
 echo.
 echo.
-%SystemRoot%\explorer.exe "%userprofile%\.lunarclient\"
-echo [32mSuccessfully opened .lunarclient in a new window.[0m
+reg.exe Add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" /v "c:\Users\"%username%"\AppData\Local\Programs\lunarclient\Lunar Client.exe" /d "~ WIN8RTM"
+echo [32mSuccessfully modified the launcher's compability settings.[0m
 echo.
 echo.
 echo.
