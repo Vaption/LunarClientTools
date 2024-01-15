@@ -29,7 +29,7 @@
 LCT has to be ran as administrator for it to work properly. This is because the entire purpose of the script</br>is to either copy, delete, or write files, or modify Winodws registry values, which require administrative privileges.
 
   ## 👨‍💻 Contributing
-I made LunarClientTools without *any* coding knowledge, based on my finding on how batch works, on Google or with the help of AI. </br> You're allowed to contribute to this project as long as you provide a valid description </br> while submitting your pull request, and make sure you are requesting to pull a feature/bugfix branch.
+I made LunarClientTools without *any* coding knowledge, based on my finding on how batch works,</br>on Google or with the help of AI. You're allowed to contribute to this project as long as you provide a valid description </br> while submitting your pull request, and make sure you are requesting to pull a feature/bugfix branch.
 
   ## 📝 License
 LunarClient Tools is licensed under the <a href="https://github.com/Vaption/LunarClientTools/blob/main/LICENSE">MIT license</a>.
