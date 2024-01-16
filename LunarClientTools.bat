@@ -96,7 +96,7 @@ echo.
 echo [91m1.[0m [97mAutodetect Profiles and Replace Current Profile Manager[0m
 echo [91m2.[0m [97mManual Profile Manager Generator[0m
 echo [91m3.[0m [97mCancel[0m
-set /P M=[96mType[0m [91m1[0m [96mand then press enter[0m[91m:[0m
+set /P M=[96mType[0m [91m1-3[0m [96mand then press enter[0m[91m:[0m
 if %M%==1 goto :json-auto
 if %M%==2 goto :json-manual
 if %M%==2 goto :menu
