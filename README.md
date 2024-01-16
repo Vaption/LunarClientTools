@@ -15,7 +15,7 @@
 </p>
 
   ## 💭 What is LCT?
-  **LunarClient Tools** is a simple batch script to automate few tasks related to the client, which </br>you are already able to do manually (by going through the files). The current release of LCT provides the following: </br>
+  **LunarClientTools** is a simple batch script to automate few tasks related to the client, which </br>you are already able to do manually (by going through the files). The current release of LCT provides the following: </br>
   - [x] Premade Fixes
       - [x] Launcher Startup
   - [x] Generate profile_manager.json
@@ -34,4 +34,4 @@ LCT has to be ran as administrator for it to work properly. This is because the 
 I made LunarClientTools without *any* coding knowledge, based on my findings on how batchfiles work,on Google or with the help of AI. You're allowed to contribute to this project as long as you provide a valid description while submitting your pull request. Please make sure you are requesting to pull a feature/bugfix branch.
 
   ## 📝 License
-LunarClient Tools is licensed under the <a href="https://github.com/Vaption/LunarClientTools/blob/main/LICENSE">MIT license</a>.
+LunarClientTools is licensed under the <a href="https://github.com/Vaption/LunarClientTools/blob/main/LICENSE">MIT license</a>.
