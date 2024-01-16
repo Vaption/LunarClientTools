@@ -128,7 +128,7 @@ for /d %%i in ("%settingsFolder%\*") do (
 
 echo [92mFound %totalProfiles% profiles in the settings folder.[0m
 
-echo [32Generating profiles...[0m
+echo [32mGenerating profiles...[0m
 echo.
 timeout /t 3 nobreak>nul
 
