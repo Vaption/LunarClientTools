@@ -28,7 +28,7 @@
   - [x] Switch to Dedicated GPU on LunarClient
 
   ## 📚 Usage
-LCT has to be ran as administrator for it to work properly. This is because the entire purpose of the script</br>is to either copy, delete, or write files, or modify Winodws registry values, which require administrative privileges.
+LCT has to be ran as administrator for it to work properly. This is because the entire purpose of the script is to either copy, delete, or write files, or modify Winodws registry values, which require administrative privileges. The script is open-source, which means you can check the code before using it.
 
   ## 👨‍💻 Contributing
 I made LunarClientTools without *any* coding knowledge, based on my findings on how batchfiles work,on Google or with the help of AI. You're allowed to contribute to this project as long as you provide a valid description while submitting your pull request. Please make sure you are requesting to pull a feature/bugfix branch.
