@@ -120,7 +120,7 @@ if not exist "%settingsFolder%" (
 )
 
 echo [92mScanning the settings folder...[0m
-timeout /t 3
+timeout /t 3 nobreak>nul
 set /a totalProfiles=0
 for /d %%i in ("%settingsFolder%\*") do (
     set /a totalProfiles+=1
@@ -130,7 +130,7 @@ echo [92mFound %totalProfiles% profiles in the settings folder.[0m
 
 echo [32Generating profiles...[0m
 echo.
-timeout /t 3
+timeout /t 3 nobreak>nul
 
 set "jsonContent=["
 
