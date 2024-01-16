@@ -24,7 +24,7 @@
   - [x] Clear Cache/Logs
   - [x] Delete Offline/JRE
   - [x] Navigate to .lunarclient
-  - [x] Backup and Save your Profiles
+  - [x] Save a Copy from your Profiles
   - [x] Switch to Dedicated GPU on LunarClient
 
   ## 📚 Usage
