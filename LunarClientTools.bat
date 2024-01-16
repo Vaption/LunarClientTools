@@ -34,7 +34,7 @@ IF %varver2% GEQ 10.* (
         )
 ENDLOCAL
 
-:menu 
+:menu
 echo [90m###################################################################[0m
 echo [90m##[0m                  [96mLunar Client Tools Script[0m                    [90m##[0m
 echo [90m##[0m          [36mhttps://github.com/Vaption/LunarClientTools[0m          [90m##[0m
@@ -42,26 +42,26 @@ echo [90m###################################################################[0
 echo.
 echo [92mWhat are you trying to do?[0m
 echo.
-echo [91m1.[0m [97mDeep Uninstall[0m
+echo [91m1.[0m [97mPremade Fixes[0m
 echo [91m2.[0m [97mClear Cache Files[0m
 echo [91m3.[0m [97mClear Logs Directory[0m
 echo [91m4.[0m [97mNavigate to .lunarclient[0m
 echo [91m5.[0m [97mDelete LunarClient's JRE[0m
 echo [91m6.[0m [97mDelete the Offline Folder[0m
-echo [91m7.[0m [97mFix Launcher Startup Issue[0m
+echo [91m7.[0m [97mGenerate profile_manager.json[0m
 echo [91m8.[0m [97mBackup and Save your Profiles[0m
 echo [91m9.[0m [97mSwitch to Dedicated GPU on LunarClient[0m
 echo [91m10.[0m [97mPermanently Run LunarClient as Administrator[0m
 echo [91m11.[0m [97mExit[0m
 echo.
 set /P M=[96mType[0m [91m1-11[0m [96mand then press enter[0m[91m:[0m
-if %M%==1 goto :deep-unins
+if %M%==1 goto :fixes-menu
 if %M%==2 goto :cache-rem
 if %M%==3 goto :logs-rem
 if %M%==4 goto :lc-folder
 if %M%==5 goto :jre-rem
 if %M%==6 goto :ofl-rem
-if %M%==7 goto :lc-comp
+if %M%==7 goto :json-menu
 if %M%==8 goto :prf-backup
 if %M%==9 goto :igpu-dgpu
 if %M%==10 goto :lc-admin
@@ -69,13 +69,128 @@ if %M%==11 goto :kill
 
 @ECHO ON
 
-:deep-unins
+:fixes-menu
 echo.
 echo.
 echo.
-%SystemRoot%\explorer.exe "%userprofile%\.lunarclient\"
-echo [32mSuccessfully opened .lunarclient in a new window.[0m
+echo [92mPremade Fixes Menu[0m
 echo.
+echo [91m1.[0m [97mLauncher Startup Fix[0m
+echo [91m2.[0m [97mCancel[0m
+set /P M=[96mType[0m [91m1[0m [96mand then press enter[0m[91m:[0m
+if %M%==1 goto :lc-comp
+if %M%==2 goto :menu
+echo.
+echo.
+echo.
+pause
+cls
+goto :menu
+
+:json-menu
+echo.
+echo.
+echo.
+echo [92mprofile_manager.json Generator Options[0m
+echo.
+echo [91m1.[0m [97mAutodetect Profiles and Replace Current Profile Manager[0m
+echo [91m2.[0m [97mManual Profile Manager Generator[0m
+echo [91m3.[0m [97mCancel[0m
+set /P M=[96mType[0m [91m1[0m [96mand then press enter[0m[91m:[0m
+if %M%==1 goto :json-auto
+if %M%==2 goto :json-manual
+if %M%==2 goto :menu
+echo.
+echo.
+echo.
+pause
+cls
+goto :menu
+
+:json-auto
+@echo off
+setlocal enabledelayedexpansion
+set "settingsFolder=%userprofile%\.lunarclient\settings\game"
+
+if not exist "%settingsFolder%" (
+    echo [91mThe settings folder does not exist in .lunarclient[0m
+    echo [91mLCT was unable to detect any profile in your settings directory.[0m
+    pause
+    exit /b
+)
+
+echo [92mScanning the settings folder...[0m
+timeout /t 3
+set /a totalProfiles=0
+for /d %%i in ("%settingsFolder%\*") do (
+    set /a totalProfiles+=1
+)
+
+echo [92mFound %totalProfiles% profiles in the settings folder.[0m
+
+echo [32Generating profiles...[0m
+echo.
+timeout /t 3
+
+set "jsonContent=["
+
+for /d %%i in ("%settingsFolder%\*") do (
+    set "folderName=%%~nxi"
+    
+    set "profileJson={"name":"!folderName!","displayName":"!folderName!","default":false,"active":false,"iconName":"","server":""}"
+    
+    set "jsonContent=!jsonContent!!profileJson!"
+    set /a totalProfiles-=1
+    if !totalProfiles! gtr 0 (
+        set "jsonContent=!jsonContent!,"
+    )
+)
+
+set "jsonContent=!jsonContent!]"
+    
+> "%userprofile%\.lunarclient\settings\game\profile_manager.json" echo !jsonContent!
+
+echo [32mSuccessfully generated and replaced profile_manager.json[0m
+echo.
+echo.
+pause
+cls
+goto :menu
+
+:json-manual
+@echo off
+setlocal enabledelayedexpansion
+
+echo [36mEnter the total number of profiles you want to add:[0m
+set /p totalProfiles=
+
+echo [32mGenerating profiles...[0m
+echo.
+
+set "jsonContent=["
+
+for /l %%i in (1, 1, %totalProfiles%) do (
+    echo [96mProfile %%i[0m
+    echo [93mEnter the name for profile %%i:[0m
+    set /p profileName=
+    echo [93mEnter the display name for profile %%i:[0m
+    set /p displayName=
+    
+    if %%i==1 (
+        set "profileJson={"name":"!profileName!","displayName":"!displayName!","default":true,"active":true,"iconName":"","server":""}"
+    ) else (
+        set "profileJson=,{"name":"!profileName!","displayName":"!displayName!","default":false,"active":false,"iconName":"","server":""}"
+    )
+    
+    set "jsonContent=!jsonContent!!profileJson!"
+)
+
+set "jsonContent=!jsonContent!]"
+    
+> "%userprofile%\Desktop\profile_manager.json" echo !jsonContent!
+
+echo.
+echo [32mSuccessfully generated profile_manager.json on your desktop.[0m
 echo.
 echo.
 pause

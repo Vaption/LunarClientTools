@@ -18,7 +18,9 @@
   **LunarClient Tools** is a simple batch script to automate few tasks related to the client, which </br>you are already able to do manually (by going through the files). The current release of LCT provides the following: </br>
   - [x] Premade Fixes
       - [x] Launcher Startup
-  - [ ] Deep Uninstall
+  - [x] Generate profile_manager.json
+      - [x] Auto-Detect
+      - [x] Manual Mode
   - [x] Clear Cache/Logs
   - [x] Delete Offline/JRE
   - [x] Navigate to .lunarclient
