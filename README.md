@@ -1,5 +1,5 @@
 <h1 align="center">
-    LunarClient Tools
+    Lunar Client Tools
 </h1>
 <p align="center">
     <strong>Simple batch script to automate specific <a href="https://lunarclient.com">LunarClient</a> tasks</strong></br>
