@@ -1,5 +1,5 @@
 <h1 align="center">
-    LunarClient Tools
+    Lunar Client Tools
 </h1>
 <p align="center">
     <strong>Simple batch script to automate specific <a href="https://lunarclient.com">LunarClient</a> tasks</strong></br>
@@ -15,7 +15,7 @@
 </p>
 
   ## 💭 What is LCT?
-  **LunarClient Tools** is a simple batch script to automate few tasks related to the client, which </br>you are already able to do manually (by going through the files). The current release of LCT provides the following: </br>
+  **LunarClientTools** is a simple batch script to automate few tasks related to the client, which </br>you are already able to do manually (by going through the files). The current release of LCT provides the following: </br>
   - [x] Premade Fixes
       - [x] Launcher Startup
   - [x] Generate profile_manager.json
@@ -25,13 +25,17 @@
   - [x] Delete Offline/JRE
   - [x] Navigate to .lunarclient
   - [x] Save a Copy from your Profiles
-  - [x] Switch to Dedicated GPU on LunarClient
+  - [x] Switch LunarClient's GPU to Dedicated/Integrated
 
   ## 📚 Usage
-LCT has to be ran as administrator for it to work properly. This is because the entire purpose of the script</br>is to either copy, delete, or write files, or modify Winodws registry values, which require administrative privileges.
+LCT has to be ran as administrator for it to work properly. This is because the entire purpose of the script is to either copy, delete, or write files, or modify Windows registry values, which require administrative privileges. The script is open-source, which means you can check the code before using it.
+
+**Disclaimer:** LunarClientTools is a batch script, which means it works **only on Windows**, and as of LunarClient's launcher update (which only allows Windows 10 or above), the script also follows the same path. 
+
+**LCT is not affiliated with LunarClient.**
 
   ## 👨‍💻 Contributing
 I made LunarClientTools without *any* coding knowledge, based on my findings on how batchfiles work,on Google or with the help of AI. You're allowed to contribute to this project as long as you provide a valid description while submitting your pull request. Please make sure you are requesting to pull a feature/bugfix branch.
 
   ## 📝 License
-LunarClient Tools is licensed under the <a href="https://github.com/Vaption/LunarClientTools/blob/main/LICENSE">MIT license</a>.
+LunarClientTools is licensed under the <a href="https://github.com/Vaption/LunarClientTools/blob/main/LICENSE">MIT license</a>.
