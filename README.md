@@ -25,7 +25,7 @@
   - [x] Delete Offline/JRE
   - [x] Navigate to .lunarclient
   - [x] Save a Copy from your Profiles
-  - [x] Switch to Dedicated GPU on LunarClient
+  - [x] Switch LunarClient's GPU to Dedicated/Integrated
 
   ## 📚 Usage
 LCT has to be ran as administrator for it to work properly. This is because the entire purpose of the script is to either copy, delete, or write files, or modify Windows registry values, which require administrative privileges. The script is open-source, which means you can check the code before using it.
