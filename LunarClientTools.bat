@@ -2,7 +2,7 @@
 @rem https://github.com/Vaption/LunarClientTools
 
 @ECHO OFF
-TITLE LunarClientTools v1.1
+TITLE LunarClientTools v1.2
 
 NET SESSION >nul 2>&1
 IF %ERRORLEVEL% EQU 0 (
@@ -53,8 +53,8 @@ echo [91m5.[0m [97mDelete LunarClient's JRE[0m
 echo [91m6.[0m [97mDelete the Offline Folder[0m
 echo [91m7.[0m [97mGenerate profile_manager.json[0m
 echo [91m8.[0m [97mBackup and Save your Profiles[0m
-echo [91m9.[0m [97mSwitch to Dedicated GPU on LunarClient[0m
-echo [91m10.[0m [97mPermanently Run LunarClient as Administrator[0m
+echo [91m9.[0m [97mAlways Run LunarClient as Administrator[0m
+echo [91m10.[0m [97mSwitch LunarClient's GPU to Dedicated/Integrated[0m
 echo [91m11.[0m [97mExit[0m
 echo.
 set /P M=[96mType[0m [91m1-11[0m [96mand then press enter[0m[91m:[0m
@@ -351,10 +351,49 @@ goto :menu
 echo.
 echo.
 echo.
+choice /N /C DI /M "Which Graphics Processor are you trying to switch to? Press D for Dedicated, Press I for Integrated"%1
+IF ERRORLEVEL==2 goto :igpu-dgpu-dedicated
+IF ERRORLEVEL==1 goto :igpu-dgpu-integrated
+
+:igpu-dgpu-integrated
 choice /N /C YC /M "Are you sure you want to proceed? Press Y to Continue, Press C to Cancel"%1
 IF ERRORLEVEL==2 goto :menu
-IF ERRORLEVEL==1 goto :igpu-dgpu-action
-:igpu-dgpu-action
+IF ERRORLEVEL==1 goto :igpu-dgpu-action-integrated
+:igpu-dgpu-action-integrated
+@echo off
+set "root_directory=C:\Users\%username%\.lunarclient\jre\"
+set "javaw_path="
+
+:findjavaw
+for /d %%i in ("%root_directory%\*") do (
+    if exist "%%i\bin\javaw.exe" (
+        set "javaw_path=%%i\bin\"
+        goto :validatejavaw
+    )
+    set "root_directory=%%i"
+    goto :findjavaw
+)
+
+:validatejavaw
+if defined javaw_path (
+    reg Add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\DirectX\UserGpuPreferences" /v "%javaw_path%javaw.exe" /d "GpuPreference=1;" /f
+    color 0A
+    echo Successfully switched LunarClient's GPU to Power Saving.
+) else (
+    color 0C
+    echo LCT was unable to locate javaw.exe, relaunch the game for the file to be redownloaded.
+)
+echo.
+echo.
+pause
+cls
+goto :menu
+
+:igpu-dgpu-dedicated
+choice /N /C YC /M "Are you sure you want to proceed? Press Y to Continue, Press C to Cancel"%1
+IF ERRORLEVEL==2 goto :menu
+IF ERRORLEVEL==1 goto :igpu-dgpu-action-dedicated
+:igpu-dgpu-action-dedicated
 @echo off
 set "root_directory=C:\Users\%username%\.lunarclient\jre\"
 set "javaw_path="
@@ -373,7 +412,7 @@ for /d %%i in ("%root_directory%\*") do (
 if defined javaw_path (
     reg Add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\DirectX\UserGpuPreferences" /v "%javaw_path%javaw.exe" /d "GpuPreference=2;" /f
     color 0A
-    echo Successfully switched LunarClient's GPU on High-Performance.
+    echo Successfully switched LunarClient's GPU to High Performance.
 ) else (
     color 0C
     echo LCT was unable to locate javaw.exe, relaunch the game for the file to be redownloaded.
