@@ -1,4 +1,4 @@
-@rem LunarClientTools v1.1 by Vaption
+@rem LunarClientTools v1.2 by Vaption
 @rem https://github.com/Vaption/LunarClientTools
 
 @ECHO OFF
