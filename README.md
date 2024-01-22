@@ -2,7 +2,7 @@
     Lunar Client Tools
 </h1>
 <p align="center">
-    <strong>Simple batch script to automate specific <a href="https://lunarclient.com">LunarClient</a> tasks</strong></br>
+    <strong>Simple Batch Script to Automate Simple <a href="https://lunarclient.com">LunarClient</a> Tasks</strong></br>
     <a href="https://github.com/Vaption/LunarClientTools/releases">View Releases</a>
     ·
     <a href="https://github.com/Vaption/LunarClientTools/issues">Report a Bug</a>
