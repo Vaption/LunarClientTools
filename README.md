@@ -17,7 +17,7 @@
   ## 💭 What is LCT?
   **LunarClientTools** is a simple batch script to automate few tasks related to the client, which </br>you are already able to do manually (by going through the files). The current release of LCT provides the following: </br>
   - [x] Premade Fixes
-      - [x] Launcher Startup
+      - [x] Launcher Startup Failure (No Reaction on Click)
   - [x] Profile Management Options
       - [x] List All Present Profiles in the Directory
       - [x] Auto-Detect and Generate profile_manager.json
