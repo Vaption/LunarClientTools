@@ -1,8 +1,9 @@
-@rem LunarClientTools v1.2 by Vaption
+@rem LunarClientTools v1.3 by Vaption
 @rem https://github.com/Vaption/LunarClientTools
+@rem Please report any issues on Github
 
 @ECHO OFF
-TITLE LunarClientTools v1.2
+TITLE LunarClientTools v1.3
 
 NET SESSION >nul 2>&1
 IF %ERRORLEVEL% EQU 0 (
@@ -51,7 +52,7 @@ echo [91m3.[0m [97mClear Logs Directory[0m
 echo [91m4.[0m [97mNavigate to .lunarclient[0m
 echo [91m5.[0m [97mDelete LunarClient's JRE[0m
 echo [91m6.[0m [97mDelete the Offline Folder[0m
-echo [91m7.[0m [97mGenerate profile_manager.json[0m
+echo [91m7.[0m [97mProfile Management Options[0m
 echo [91m8.[0m [97mBackup and Save your Profiles[0m
 echo [91m9.[0m [97mAlways Run LunarClient as Administrator[0m
 echo [91m10.[0m [97mSwitch LunarClient's GPU to Dedicated/Integrated[0m
@@ -108,18 +109,46 @@ echo [90m###################################################################[0
 echo.
 echo.
 echo.
-echo [92mprofile_manager.json Generator Options[0m
+echo [92mProfile Management Options[0m
 echo.
-echo [91m1.[0m [97mAutodetect Profiles and Replace Current Profile Manager[0m
-echo [91m2.[0m [97mManual Profile Manager Generator[0m
-echo [91m3.[0m [97mCancel[0m
-set /P M=[96mType[0m [91m1-3[0m [96mand then press enter[0m[91m:[0m
-if %M%==1 goto :json-auto
-if %M%==2 goto :json-manual
-if %M%==3 goto :cls-menu
+echo [91m1.[0m [97mList All Your Current Available Profiles[0m
+echo [91m2.[0m [97mAutodetect Profiles and Replace Current Profile Manager[0m
+echo [91m3.[0m [97mManual Profile Manager Generator[0m
+echo [91m4.[0m [97mCancel[0m
+set /P M=[96mType[0m [91m1-4[0m [96mand then press enter[0m[91m:[0m
+if %M%==1 goto :json-list
+if %M%==2 goto :json-auto
+if %M%==3 goto :json-manual
+if %M%==4 goto :cls-menu
 echo.
 echo.
 echo.
+pause
+cls
+goto :menu
+
+:json-list
+echo.
+@echo off
+setlocal
+echo [32mScanning your profiles directory...[0m
+timeout /t 4 /nobreak >nul
+set "path=%userprofile%\.lunarclient\settings\game"
+set count=0
+
+for /d %%G in ("%path%\*") do (
+    set /a count+=1
+)
+echo [92mYou have a total of %count% profiles:[0m
+echo.
+
+for /d %%G in ("%path%\*") do (
+    echo - %%~nG
+)
+echo.
+echo.
+echo.
+endlocal
 pause
 cls
 goto :menu
@@ -443,7 +472,7 @@ goto :menu
 :kill
 exit
 
-@rem windows version incompatible error here
+@rem unsupported windows version error here
 :windows-error
 echo [90m#############################[0m [31mERROR[0m [90m###############################[0m
 echo [90m#[0m                                                                 [90m#[0m
