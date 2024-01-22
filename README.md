@@ -36,7 +36,7 @@ LCT has to be ran as administrator for it to work properly. This is because the 
 **LCT is not affiliated with LunarClient.**
 
   ## 👨‍💻 Contributing
-I made LunarClientTools without *any* coding knowledge, based on my findings on how batchfiles work,on Google or with the help of AI. You're allowed to contribute to this project as long as you provide a valid description while submitting your pull request.
+I made LunarClientTools without *any* coding knowledge, based on my findings on how batch works, on Google or with the help of AI. You're allowed to contribute to this project as long as you provide a valid description while submitting your pull request.
 
   ## 📝 License
 LunarClientTools is licensed under the <a href="https://github.com/Vaption/LunarClientTools/blob/main/LICENSE">MIT license</a>.
