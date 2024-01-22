@@ -111,7 +111,7 @@ echo.
 echo.
 echo [92mProfile Management Options[0m
 echo.
-echo [91m1.[0m [97mList All Your Current Available Profiles[0m
+echo [91m1.[0m [97mList All Present Profiles in the Directory[0m
 echo [91m2.[0m [97mAutodetect Profiles and Replace Current Profile Manager[0m
 echo [91m3.[0m [97mManual Profile Manager Generator[0m
 echo [91m4.[0m [97mCancel[0m
