@@ -19,13 +19,13 @@
   - [x] Premade Fixes
       - [x] Launcher Startup Failure (No Reaction on Click)
   - [x] Profile Management Options
+      - [x] Export Your Profiles to Your Desktop
       - [x] List All Present Profiles in the Directory
       - [x] Auto-Detect and Generate profile_manager.json
       - [x] Manually Generate profile_manager.json with Given Values
   - [x] Clear Cache/Logs
   - [x] Delete Offline/JRE
   - [x] Navigate to .lunarclient
-  - [x] Save a Copy from your Profiles
   - [x] Switch LunarClient's GPU to Dedicated/Integrated
 
   ## 📚 Usage

@@ -1,9 +1,9 @@
-@rem LunarClientTools v1.3 by Vaption
+@rem LunarClientTools v1.4 by Vaption
 @rem https://github.com/Vaption/LunarClientTools
 @rem Please report any issues on Github
 
 @ECHO OFF
-TITLE LunarClientTools v1.3
+TITLE LunarClientTools v1.4
 
 NET SESSION >nul 2>&1
 IF %ERRORLEVEL% EQU 0 (
@@ -53,10 +53,9 @@ echo [91m4.[0m [97mNavigate to .lunarclient[0m
 echo [91m5.[0m [97mDelete LunarClient's JRE[0m
 echo [91m6.[0m [97mDelete the Offline Folder[0m
 echo [91m7.[0m [97mProfile Management Options[0m
-echo [91m8.[0m [97mBackup and Save your Profiles[0m
-echo [91m9.[0m [97mAlways Run LunarClient as Administrator[0m
-echo [91m10.[0m [97mSwitch LunarClient's GPU to Dedicated/Integrated[0m
-echo [91m11.[0m [97mExit[0m
+echo [91m8.[0m [97mAlways Run LunarClient as Administrator[0m
+echo [91m9.[0m [97mSwitch LunarClient's GPU to Dedicated/Integrated[0m
+echo [91m10.[0m [97mExit[0m
 echo.
 set /P M=[96mType[0m [91m1-11[0m [96mand then press enter[0m[91m:[0m
 if %M%==1 goto :fixes-menu
@@ -66,10 +65,9 @@ if %M%==4 goto :lc-folder
 if %M%==5 goto :jre-rem
 if %M%==6 goto :ofl-rem
 if %M%==7 goto :json-menu
-if %M%==8 goto :prf-backup
-if %M%==9 goto :igpu-dgpu
-if %M%==10 goto :lc-admin
-if %M%==11 goto :kill
+if %M%==8 goto :igpu-dgpu
+if %M%==9 goto :lc-admin
+if %M%==10 goto :kill
 
 @ECHO ON
 
@@ -114,12 +112,14 @@ echo.
 echo [91m1.[0m [97mList All Present Profiles in the Directory[0m
 echo [91m2.[0m [97mAutodetect Profiles and Replace Current Profile Manager[0m
 echo [91m3.[0m [97mManual Profile Manager Generator[0m
-echo [91m4.[0m [97mCancel[0m
+echo [91m4.[0m [97mExport Your Profiles to Desktop[0m
+echo [91m5.[0m [97mCancel[0m
 set /P M=[96mType[0m [91m1-4[0m [96mand then press enter[0m[91m:[0m
 if %M%==1 goto :json-list
 if %M%==2 goto :json-auto
 if %M%==3 goto :json-manual
-if %M%==4 goto :cls-menu
+if %M%==4 goto :json-backup
+if %M%==5 goto :cls-menu
 echo.
 echo.
 echo.
@@ -243,6 +243,39 @@ pause
 cls
 goto :menu
 
+:json-backup
+echo.
+echo.
+echo.
+choice /N /C YC /M "Are you sure you want to proceed? Press Y to Continue, Press C to Cancel"%1
+IF ERRORLEVEL==2 goto :menu
+IF ERRORLEVEL==1 goto :json-backup-action
+:json-backup-action
+mkdir "%userprofile%"\Desktop\"LCT-Profiles"
+xcopy /s /v "%userprofile%"\.lunarclient\settings\game "%userprofile%"\Desktop\LCT-Profiles /Q > nul
+del "%userprofile%"\Desktop\LCT-Profiles\accounts.json
+del "%userprofile%"\Desktop\LCT-Profiles\alert_manager.json
+del "%userprofile%"\Desktop\LCT-Profiles\features.json
+del "%userprofile%"\Desktop\LCT-Profiles\global_options.json
+del "%userprofile%"\Desktop\LCT-Profiles\internal.json
+del "%userprofile%"\Desktop\LCT-Profiles\knownServers.json
+del "%userprofile%"\Desktop\LCT-Profiles\language.json
+del "%userprofile%"\Desktop\LCT-Profiles\main_menu_theme_manager.json
+del "%userprofile%"\Desktop\LCT-Profiles\metadata_fallback.json
+del "%userprofile%"\Desktop\LCT-Profiles\muted_users.json
+del "%userprofile%"\Desktop\LCT-Profiles\rule-features.json
+del "%userprofile%"\Desktop\LCT-Profiles\statistics.json
+del "%userprofile%"\Desktop\LCT-Profiles\version
+echo [32mSuccessfully copied your profiles to your desktop.[0m
+echo [92mFile Path: "%userprofile%"\Desktop\LCT-Profiles[0m
+%SystemRoot%\explorer.exe "%userprofile%\Desktop\LCT-Profiles\"
+echo.
+echo.
+echo.
+pause
+cls
+goto :menu
+
 :cache-rem
 echo.
 echo.
@@ -251,9 +284,9 @@ choice /N /C YC /M "Are you sure you want to proceed? Press Y to Continue, Press
 IF ERRORLEVEL==2 goto :menu
 IF ERRORLEVEL==1 goto :cache-rem-action
 :cache-rem-action
-del c:\Users\"%username%"\.lunarclient\game-cache\* /Q > nul
-del c:\Users\"%username%"\.lunarclient\launcher-cache\* /Q > nul
-del c:\Users\"%username%"\.lunarclient\offline\multiver\cache\* /Q > nul
+del "%userprofile%"\.lunarclient\game-cache\* /Q > nul
+del "%userprofile%"\.lunarclient\launcher-cache\* /Q > nul
+del "%userprofile%"\.lunarclient\offline\multiver\cache\* /Q > nul
 echo [32mSuccessfully deleted LunarClient cached files.[0m
 echo.
 echo.
@@ -270,7 +303,7 @@ choice /N /C YC /M "Are you sure you want to proceed? Press Y to Continue, Press
 IF ERRORLEVEL==2 goto :menu
 IF ERRORLEVEL==1 goto :logs-rem-action
 :logs-rem-action
-del c:\Users\"%username%"\.lunarclient\logs\* /Q > nul
+del "%userprofile%"\.lunarclient\logs\* /Q > nul
 echo [32mSuccessfully cleared your game/launcher logs.[0m
 echo.
 echo.
@@ -300,7 +333,7 @@ choice /N /C YC /M "Are you sure you want to proceed? Press Y to Continue, Press
 IF ERRORLEVEL==2 goto :menu
 IF ERRORLEVEL==1 goto :jre-rem-action
 :jre-rem-action
-del c:\Users\"%username%"\.lunarclient\jre\* /Q > nul
+del "%userprofile%"\.lunarclient\jre\* /Q > nul
 echo [32mSuccessfully deleted LunarClient's JRE.[0m
 echo.
 echo.
@@ -317,7 +350,7 @@ choice /N /C YC /M "Are you sure you want to proceed? Press Y to Continue, Press
 IF ERRORLEVEL==2 goto :menu
 IF ERRORLEVEL==1 goto :ofl-rem-action
 :ofl-rem-action
-del c:\Users\"%username%"\.lunarclient\offline\* /Q > nul
+del "%userprofile%"\.lunarclient\offline\* /Q > nul
 echo [32mSuccessfully deleted LunarClient's offline folder.[0m
 echo.
 echo.
@@ -343,39 +376,6 @@ pause
 cls
 goto :menu
 
-:prf-backup
-echo.
-echo.
-echo.
-choice /N /C YC /M "Are you sure you want to proceed? Press Y to Continue, Press C to Cancel"%1
-IF ERRORLEVEL==2 goto :menu
-IF ERRORLEVEL==1 goto :prf-backup-action
-:prf-backup-action
-mkdir c:\Users\"%username%"\Desktop\"LCT-Profiles"
-xcopy /s /v c:\Users\"%username%"\.lunarclient\settings\game c:\Users\"%username%"\Desktop\LCT-Profiles /Q > nul
-del c:\Users\"%username%"\Desktop\LCT-Profiles\accounts.json
-del c:\Users\"%username%"\Desktop\LCT-Profiles\alert_manager.json
-del c:\Users\"%username%"\Desktop\LCT-Profiles\features.json
-del c:\Users\"%username%"\Desktop\LCT-Profiles\global_options.json
-del c:\Users\"%username%"\Desktop\LCT-Profiles\internal.json
-del c:\Users\"%username%"\Desktop\LCT-Profiles\knownServers.json
-del c:\Users\"%username%"\Desktop\LCT-Profiles\language.json
-del c:\Users\"%username%"\Desktop\LCT-Profiles\main_menu_theme_manager.json
-del c:\Users\"%username%"\Desktop\LCT-Profiles\metadata_fallback.json
-del c:\Users\"%username%"\Desktop\LCT-Profiles\muted_users.json
-del c:\Users\"%username%"\Desktop\LCT-Profiles\rule-features.json
-del c:\Users\"%username%"\Desktop\LCT-Profiles\statistics.json
-del c:\Users\"%username%"\Desktop\LCT-Profiles\version
-echo [32mSuccessfully copied your profiles to your desktop.[0m
-echo [92mFile Path: c:\Users\"%username%"\Desktop\LCT-Profiles[0m
-%SystemRoot%\explorer.exe "c:\Users\"%username%"\Desktop\LCT-Profiles\"
-echo.
-echo.
-echo.
-pause
-cls
-goto :menu
-
 :igpu-dgpu
 echo.
 echo.
@@ -390,7 +390,7 @@ IF ERRORLEVEL==2 goto :menu
 IF ERRORLEVEL==1 goto :igpu-dgpu-action-integrated
 :igpu-dgpu-action-integrated
 @echo off
-set "root_directory=C:\Users\%username%\.lunarclient\jre\"
+set "root_directory=%userprofile%\.lunarclient\jre\"
 set "javaw_path="
 
 :findjavaw
