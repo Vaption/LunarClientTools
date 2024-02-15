@@ -1,9 +1,9 @@
-@rem LunarClientTools v1.4 by Vaption
+@rem LunarClientTools v1.5 by Vaption
 @rem https://github.com/Vaption/LunarClientTools
 @rem Please report any issues on Github
 
 @ECHO OFF
-TITLE LunarClientTools v1.4
+TITLE LunarClientTools v1.5
 
 NET SESSION >nul 2>&1
 IF %ERRORLEVEL% EQU 0 (
@@ -46,55 +46,22 @@ echo [90m###################################################################[0
 echo.
 echo [92mWhat are you trying to do?[0m
 echo.
-echo [91m1.[0m [97mPremade Fixes[0m
-echo [91m2.[0m [97mClear Cache Files[0m
-echo [91m3.[0m [97mClear Logs Directory[0m
-echo [91m4.[0m [97mNavigate to .lunarclient[0m
-echo [91m5.[0m [97mDelete LunarClient's JRE[0m
-echo [91m6.[0m [97mDelete the Offline Folder[0m
-echo [91m7.[0m [97mProfile Management Options[0m
-echo [91m8.[0m [97mAlways Run LunarClient as Administrator[0m
-echo [91m9.[0m [97mSwitch LunarClient's GPU to Dedicated/Integrated[0m
-echo [91m10.[0m [97mExit[0m
+echo [91m1.[0m [97mClear Cache Files[0m
+echo [91m2.[0m [97mNavigate to .lunarclient[0m
+echo [91m3.[0m [97mProfile Management Options[0m
+echo [91m4.[0m [97mSwitch LunarClient's GPU to Dedicated/Integrated[0m
+echo [91m5.[0m [97mExit[0m
 echo.
 set /P M=[96mType[0m [91m1-11[0m [96mand then press enter[0m[91m:[0m
-if %M%==1 goto :fixes-menu
-if %M%==2 goto :cache-rem
-if %M%==3 goto :logs-rem
-if %M%==4 goto :lc-folder
-if %M%==5 goto :jre-rem
-if %M%==6 goto :ofl-rem
-if %M%==7 goto :json-menu
-if %M%==8 goto :igpu-dgpu
-if %M%==9 goto :lc-admin
-if %M%==10 goto :kill
+if %M%==1 goto :cache-rem
+if %M%==2 goto :lc-folder
+if %M%==3 goto :json-menu
+if %M%==4 goto :igpu-dgpu
+if %M%==5 goto :kill
 
 @ECHO ON
 
 :cls-menu
-cls
-goto :menu
-
-:fixes-menu
-cls
-echo [90m###################################################################[0m
-echo [90m##[0m                  [96mLunar Client Tools Script[0m                    [90m##[0m
-echo [90m##[0m          [36mhttps://github.com/Vaption/LunarClientTools[0m          [90m##[0m
-echo [90m###################################################################[0m
-echo.
-echo.
-echo.
-echo [92mPremade Fixes Menu[0m
-echo.
-echo [91m1.[0m [97mLauncher Startup Fix[0m
-echo [91m2.[0m [97mCancel[0m
-set /P M=[96mType[0m [91m1-2[0m [96mand then press enter[0m[91m:[0m
-if %M%==1 goto :lc-comp
-if %M%==2 goto :cls-menu
-echo.
-echo.
-echo.
-pause
 cls
 goto :menu
 
@@ -295,80 +262,12 @@ pause
 cls
 goto :menu
 
-:logs-rem
-echo.
-echo.
-echo.
-choice /N /C YC /M "Are you sure you want to proceed? Press Y to Continue, Press C to Cancel"%1
-IF ERRORLEVEL==2 goto :menu
-IF ERRORLEVEL==1 goto :logs-rem-action
-:logs-rem-action
-del "%userprofile%"\.lunarclient\logs\* /Q > nul
-echo [32mSuccessfully cleared your game/launcher logs.[0m
-echo.
-echo.
-echo.
-pause
-cls
-goto :menu
-
 :lc-folder
 echo.
 echo.
 echo.
 %SystemRoot%\explorer.exe "%userprofile%\.lunarclient\"
 echo [32mSuccessfully opened .lunarclient in a new window.[0m
-echo.
-echo.
-echo.
-pause
-cls
-goto :menu
-
-:jre-rem
-echo.
-echo.
-echo.
-choice /N /C YC /M "Are you sure you want to proceed? Press Y to Continue, Press C to Cancel"%1
-IF ERRORLEVEL==2 goto :menu
-IF ERRORLEVEL==1 goto :jre-rem-action
-:jre-rem-action
-del "%userprofile%"\.lunarclient\jre\* /Q > nul
-echo [32mSuccessfully deleted LunarClient's JRE.[0m
-echo.
-echo.
-echo.
-pause
-cls
-goto :menu
-
-:ofl-rem
-echo.
-echo.
-echo.
-choice /N /C YC /M "Are you sure you want to proceed? Press Y to Continue, Press C to Cancel"%1
-IF ERRORLEVEL==2 goto :menu
-IF ERRORLEVEL==1 goto :ofl-rem-action
-:ofl-rem-action
-del "%userprofile%"\.lunarclient\offline\* /Q > nul
-echo [32mSuccessfully deleted LunarClient's offline folder.[0m
-echo.
-echo.
-echo.
-pause
-cls
-goto :menu
-
-:lc-comp
-echo.
-echo.
-echo.
-choice /N /C YC /M "Are you sure you want to proceed? Press Y to Continue, Press C to Cancel"%1
-IF ERRORLEVEL==2 goto :menu
-IF ERRORLEVEL==1 goto :lc-comp-action
-:lc-comp-action
-reg Add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" /v "c:\Users\%username%\AppData\Local\Programs\lunarclient\Lunar Client.exe" /d "~ WIN8RTM"
-echo [32mSuccessfully modified the launcher's compatibility settings.[0m
 echo.
 echo.
 echo.
@@ -446,23 +345,6 @@ if defined javaw_path (
     color 0C
     echo LCT was unable to locate javaw.exe, relaunch the game for the file to be redownloaded.
 )
-echo.
-echo.
-pause
-cls
-goto :menu
-
-:lc-admin
-echo.
-echo.
-echo.
-choice /N /C YC /M "Are you sure you want to proceed? Press Y to Continue, Press C to Cancel"%1
-IF ERRORLEVEL==2 goto :menu
-IF ERRORLEVEL==1 goto :lc-admin-action
-:lc-admin-action
-reg Add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" /v "c:\Users\%username%\AppData\Local\Programs\lunarclient\Lunar Client.exe" /d "RUNASADMIN"
-echo [32mSuccessfully forced LunarClient to run as admin everytime.[0m
-echo.
 echo.
 echo.
 pause
