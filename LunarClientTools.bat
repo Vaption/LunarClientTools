@@ -1,9 +1,9 @@
-@rem LunarClientTools v1.5 by Vaption
+@rem LunarClientTools v1.6 by Vaption
 @rem https://github.com/Vaption/LunarClientTools
 @rem Please report any issues on Github
 
 @ECHO OFF
-TITLE LunarClientTools v1.5
+TITLE LunarClientTools v1.6
 
 NET SESSION >nul 2>&1
 IF %ERRORLEVEL% EQU 0 (
@@ -52,7 +52,7 @@ echo [91m3.[0m [97mProfile Management Options[0m
 echo [91m4.[0m [97mSwitch LunarClient's GPU to Dedicated/Integrated[0m
 echo [91m5.[0m [97mExit[0m
 echo.
-set /P M=[96mType[0m [91m1-11[0m [96mand then press enter[0m[91m:[0m
+set /P M=[96mType[0m [91m1-5[0m [96mand then press enter[0m[91m:[0m
 if %M%==1 goto :cache-rem
 if %M%==2 goto :lc-folder
 if %M%==3 goto :json-menu
@@ -72,8 +72,6 @@ echo [90m##[0m                  [96mLunar Client Tools Script[0m            
 echo [90m##[0m          [36mhttps://github.com/Vaption/LunarClientTools[0m          [90m##[0m
 echo [90m###################################################################[0m
 echo.
-echo.
-echo.
 echo [92mProfile Management Options[0m
 echo.
 echo [91m1.[0m [97mList All Present Profiles in the Directory[0m
@@ -81,7 +79,8 @@ echo [91m2.[0m [97mAutodetect Profiles and Replace Current Profile Manager[0
 echo [91m3.[0m [97mManual Profile Manager Generator[0m
 echo [91m4.[0m [97mExport Your Profiles to Desktop[0m
 echo [91m5.[0m [97mCancel[0m
-set /P M=[96mType[0m [91m1-4[0m [96mand then press enter[0m[91m:[0m
+echo.
+set /P M=[96mType[0m [91m1-5[0m [96mand then press enter[0m[91m:[0m
 if %M%==1 goto :json-list
 if %M%==2 goto :json-auto
 if %M%==3 goto :json-manual
@@ -106,7 +105,7 @@ set count=0
 for /d %%G in ("%path%\*") do (
     set /a count+=1
 )
-echo [92mYou have a total of %count% profiles:[0m
+echo [92mYou have a total of %count%/8 profiles:[0m
 echo.
 
 for /d %%G in ("%path%\*") do (
@@ -128,10 +127,9 @@ set "settingsFolder=%userprofile%\.lunarclient\settings\game"
 if not exist "%settingsFolder%" (
     echo [91mThe settings folder does not exist in .lunarclient[0m
     echo [91mLCT was unable to detect any profile in your settings directory.[0m
-    pause
+    pause >nul
     exit /b
 )
-
 echo [92mScanning the settings folder...[0m
 timeout /t 3 /nobreak >nul
 set /a totalProfiles=0
@@ -139,12 +137,19 @@ for /d %%i in ("%settingsFolder%\*") do (
     set /a totalProfiles+=1
 )
 
+if %totalProfiles% gtr 8 (
+    echo [31mError: More than eight profiles are present![0m
+    echo [31mPlease navigate to .lunarclient\settings\game and remove some profiles before running the command.[0m
+    pause >nul
+    exit /b
+) else (
+    goto :json-auto-action
+)
+:json-auto-action
 echo [92mFound %totalProfiles% profiles in the settings folder.[0m
-
 echo [32mGenerating profiles...[0m
 echo.
 timeout /t 3 /nobreak >nul
-
 set "jsonContent=["
 
 for /d %%i in ("%settingsFolder%\*") do (
@@ -158,15 +163,13 @@ for /d %%i in ("%settingsFolder%\*") do (
         set "jsonContent=!jsonContent!,"
     )
 )
-
 set "jsonContent=!jsonContent!]"
     
 > "%userprofile%\.lunarclient\settings\game\profile_manager.json" echo !jsonContent!
-
 echo [32mSuccessfully generated and replaced profile_manager.json[0m
 echo.
 echo.
-pause
+pause >nul
 cls
 goto :menu
 
@@ -174,8 +177,15 @@ goto :menu
 @echo off
 setlocal enabledelayedexpansion
 
-echo [36mEnter the total number of profiles you want to add:[0m
+echo [36mEnter the total number of profiles you want to add (Max=8):[0m
 set /p totalProfiles=
+
+if %totalProfiles% gtr 8 (
+    echo [31mError: Maximum number of profiles exceeded. Please enter a number between 1 and 8.[0m
+    pause >nul
+    cls
+    goto :menu
+)
 
 echo [32mGenerating profiles...[0m
 echo.
