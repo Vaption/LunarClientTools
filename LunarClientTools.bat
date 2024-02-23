@@ -74,24 +74,33 @@ echo [90m###################################################################[0
 echo.
 echo [92mProfile Management Options[0m
 echo.
-echo [91m1.[0m [97mList All Present Profiles in the Directory[0m
-echo [91m2.[0m [97mAutodetect Profiles and Replace Current Profile Manager[0m
-echo [91m3.[0m [97mManual Profile Manager Generator[0m
-echo [91m4.[0m [97mExport Your Profiles to Desktop[0m
-echo [91m5.[0m [97mCancel[0m
+echo [91m1.[0m [97mImport Profiles From the Archive[0m
+echo [91m2.[0m [97mList All Present Profiles in the Directory[0m
+echo [91m3.[0m [97mAutodetect Profiles and Replace Current Profile Manager[0m
+echo [91m4.[0m [97mManual Profile Manager Generator[0m
+echo [91m5.[0m [97mExport Current Profiles to Desktop[0m
+echo [91m6.[0m [97mCancel[0m
 echo.
-set /P M=[96mType[0m [91m1-5[0m [96mand then press enter[0m[91m:[0m
-if %M%==1 goto :json-list
-if %M%==2 goto :json-auto
-if %M%==3 goto :json-manual
-if %M%==4 goto :json-backup
-if %M%==5 goto :cls-menu
+set /P M=[96mType[0m [91m1-6[0m [96mand then press enter[0m[91m:[0m
+if %M%==1 goto :json-archive
+if %M%==2 goto :json-list
+if %M%==3 goto :json-auto
+if %M%==4 goto :json-manual
+if %M%==5 goto :json-backup
+if %M%==6 goto :cls-menu
 echo.
 echo.
 echo.
 pause
 cls
 goto :menu
+
+:json-archive
+@rem sync with the archive
+@Echo off
+mkdir "%userprofile%"\.lunarclient\".lct-cache"
+powershell -Command "$url = 'https://raw.githubusercontent.com/Vaption/LunarClientProfiles/main/profiles/data.json'; $filename = [System.IO.Path]::GetFileName($url); wget -Uri $url -OutFile ('%userprofile%\.lunarclient\.lct-cache' + $filename)"
+Powershell -Nop -C "$profiles = (Get-Content .\data.json | ConvertFrom-Json).profiles; foreach ($profile in $profiles) { $profile.link | Out-File -FilePath ('{0}.txt' -f $profile.name) }"
 
 :json-list
 echo.
