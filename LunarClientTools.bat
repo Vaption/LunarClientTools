@@ -98,9 +98,58 @@ goto :menu
 :json-archive
 @rem sync with the archive
 @Echo off
+rmdir /s /q "%userprofile%"\.lunarclient\".lct-cache"
 mkdir "%userprofile%"\.lunarclient\".lct-cache"
-powershell -Command "$url = 'https://raw.githubusercontent.com/Vaption/LunarClientProfiles/main/profiles/data.json'; $filename = [System.IO.Path]::GetFileName($url); wget -Uri $url -OutFile ('%userprofile%\.lunarclient\.lct-cache' + $filename)"
-Powershell -Nop -C "$profiles = (Get-Content .\data.json | ConvertFrom-Json).profiles; foreach ($profile in $profiles) { $profile.link | Out-File -FilePath ('{0}.txt' -f $profile.name) }"
+powershell -Command "$url = 'https://raw.githubusercontent.com/Vaption/LunarClientProfiles/main/profiles/data.json'; $filename = [System.IO.Path]::GetFileName($url); wget -Uri $url -OutFile ('%userprofile%\.lunarclient\.lct-cache\' + $filename)"
+Powershell -Nop -C "$profiles = (Get-Content '%userprofile%\.lunarclient\.lct-cache\data.json' | ConvertFrom-Json).profiles; foreach ($profile in $profiles) { $profile.link | Out-File -FilePath ('%userprofile%\.lunarclient\.lct-cache\{0}.txt' -f $profile.name) }"
+goto :json-archive-loader
+:json-archive-loader
+@echo off
+setlocal EnableDelayedExpansion
+set "folderPath=%userprofile%\.lunarclient\.lct-cache"
+set /a count=0
+for %%F in ("%folderPath%\*.txt") do (
+    set /a count+=1
+    set "file[!count!]=%%~nxF"
+)
+echo [92mAvailable Profiles on the Archive:[0m
+for /l %%N in (1,1,!count!) do (
+    echo %%N. !file[%%N]!
+)
+set /p choice=Enter the number of the profile you want to import:
+if defined file[%choice%] (
+    set "filePath=%folderPath%\!file[%choice%]!"
+    if exist "!filePath!" (
+        set "tempFile=%folderPath%\linkDisplay.txt"
+        if exist "!tempFile!" del "!tempFile!"
+        type "!filePath!" > "!tempFile!"
+        set "fileContent="
+        for /f "usebackq delims=" %%G in ("!tempFile!") do (
+            set "fileContent=%%G"
+            goto :json-archive-link-display
+        )
+        :json-archive-link-display
+        for /f "delims=" %%G in ("!fileContent!") do (
+            set "downloadLink=%%G"
+            goto :json-archive-downloader
+        )
+    ) else (
+        echo The selected profile does not exist. Exiting...
+        timeout 3 >nul
+        goto :menu
+    )
+) else (
+    echo Invalid choice. Exiting...
+    timeout 3 >nul
+    goto :menu
+)
+:json-archive-downloader
+echo Downloading profile %file[%choice%]% from !downloadLink!
+powershell -Command "$url = '!downloadLink!'; $filename = [System.IO.Path]::GetFileName($url); wget -Uri $url -OutFile ('%userprofile%\.lunarclient\.lct-cache\' + $filename)"
+echo Profile downloaded successfully!
+@rem temp files removal
+del "!tempFile!" > nul
+pause >nul
 
 :json-list
 echo.
