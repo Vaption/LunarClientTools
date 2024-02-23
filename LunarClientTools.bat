@@ -19,7 +19,7 @@ echo [90m###################################################################[0
 echo.
 echo.
 
-PAUSE
+PAUSE >nul
 EXIT /B 1
 )
 
@@ -39,6 +39,7 @@ IF %varver2% GEQ 10.* (
 ENDLOCAL
 
 :menu
+cls
 echo [90m###################################################################[0m
 echo [90m##[0m                  [96mLunar Client Tools Script[0m                    [90m##[0m
 echo [90m##[0m          [36mhttps://github.com/Vaption/LunarClientTools[0m          [90m##[0m
@@ -98,27 +99,48 @@ goto :menu
 :json-archive
 @rem sync with the archive
 @Echo off
-rmdir /s /q "%userprofile%"\.lunarclient\".lct-cache"
-mkdir "%userprofile%"\.lunarclient\".lct-cache"
-powershell -Command "$url = 'https://raw.githubusercontent.com/Vaption/LunarClientProfiles/main/profiles/data.json'; $filename = [System.IO.Path]::GetFileName($url); wget -Uri $url -OutFile ('%userprofile%\.lunarclient\.lct-cache\' + $filename)"
-Powershell -Nop -C "$profiles = (Get-Content '%userprofile%\.lunarclient\.lct-cache\data.json' | ConvertFrom-Json).profiles; foreach ($profile in $profiles) { $profile.link | Out-File -FilePath ('%userprofile%\.lunarclient\.lct-cache\{0}.txt' -f $profile.name) }"
-goto :json-archive-loader
+cls
+echo [90m###################################################################[0m
+echo [90m##[0m                  [96mLunar Client Tools Script[0m                    [90m##[0m
+echo [90m##[0m          [36mhttps://github.com/Vaption/LunarClientTools[0m          [90m##[0m
+echo [90m###################################################################[0m
+echo.
+echo [92mScanning current available profiles...[0m
+timeout /t 3 /nobreak >nul
+set "settingsFolder=%userprofile%\.lunarclient\settings\game"
+set /a totalProfiles=0
+for /d %%i in ("%settingsFolder%\*") do (
+    set /a totalProfiles+=1
+)
+if %totalProfiles% gtr 7 (
+    echo [31mError: More than seven profiles are present![0m
+    echo [31mMaximum amount of profiles allowed is eight, importing profiles isn't possible.[0m
+    echo [31mPlease navigate to .lunarclient\settings\game and remove some profiles before running the command.[0m
+    pause >nul
+    exit /b
+) else (
+    goto :json-archive-loader
+)
 :json-archive-loader
 @echo off
 setlocal EnableDelayedExpansion
 set "folderPath=%userprofile%\.lunarclient\.lct-cache"
 set /a count=0
 for %%F in ("%folderPath%\*.txt") do (
-    set /a count+=1
-    set "file[!count!]=%%~nxF"
+    set "filename=%%~nF"
+    if not "!filename!"=="linkDisplay" (
+        set /a count+=1
+        set "file[!count!]=%%~nF"
+    )
 )
-echo [92mAvailable Profiles on the Archive:[0m
+echo [97mAvailable Profiles on the Archive:[0m
 for /l %%N in (1,1,!count!) do (
     echo %%N. !file[%%N]!
 )
-set /p choice=Enter the number of the profile you want to import:
+set /p choice=[96mEnter the number of the profile you want to import[0m[91m:[0m
 if defined file[%choice%] (
-    set "filePath=%folderPath%\!file[%choice%]!"
+    set "fileName=!file[%choice%]!.txt"
+    set "filePath=%folderPath%\!fileName!"
     if exist "!filePath!" (
         set "tempFile=%folderPath%\linkDisplay.txt"
         if exist "!tempFile!" del "!tempFile!"
@@ -134,22 +156,22 @@ if defined file[%choice%] (
             goto :json-archive-downloader
         )
     ) else (
-        echo The selected profile does not exist. Exiting...
+        echo [91mThe selected profile does not exist. Exiting...[0m
         timeout 3 >nul
         goto :menu
     )
-) else (
-    echo Invalid choice. Exiting...
-    timeout 3 >nul
-    goto :menu
 )
+
 :json-archive-downloader
-echo Downloading profile %file[%choice%]% from !downloadLink!
-powershell -Command "$url = '!downloadLink!'; $filename = [System.IO.Path]::GetFileName($url); wget -Uri $url -OutFile ('%userprofile%\.lunarclient\.lct-cache\' + $filename)"
-echo Profile downloaded successfully!
-@rem temp files removal
-del "!tempFile!" > nul
+echo [96mAttempting to download the profile from the archive...[0m
+timeout 2 >nul
+powershell -Command "$url = '!downloadLink!'; $filename = [System.IO.Path]::GetFileName($url); wget -Uri $url -OutFile ('%userprofile%\.lunarclient\settings\game\' + $filename); Expand-Archive -Path ('%userprofile%\.lunarclient\settings\game\' + $filename) -DestinationPath ('%userprofile%\.lunarclient\settings\game\' + [System.IO.Path]::GetFileNameWithoutExtension($filename)) -Force"
+echo [32mProfile imported successfully, attempting to generate the new profile_manager.json...[0m
+timeout 2 >nul
+goto :json-auto
 pause >nul
+cls
+goto :menu
 
 :json-list
 echo.
@@ -206,7 +228,6 @@ if %totalProfiles% gtr 8 (
 :json-auto-action
 echo [92mFound %totalProfiles% profiles in the settings folder.[0m
 echo [32mGenerating profiles...[0m
-echo.
 timeout /t 3 /nobreak >nul
 set "jsonContent=["
 
@@ -224,9 +245,9 @@ for /d %%i in ("%settingsFolder%\*") do (
 set "jsonContent=!jsonContent!]"
     
 > "%userprofile%\.lunarclient\settings\game\profile_manager.json" echo !jsonContent!
+echo.
 echo [32mSuccessfully generated and replaced profile_manager.json[0m
-echo.
-echo.
+echo [32mOperation successful.[0m
 pause >nul
 cls
 goto :menu
@@ -432,4 +453,4 @@ echo [90m#[0m     [91mIf you believe this is an issue, open an issue on Githu
 echo [90m###################################################################[0m
 echo.
 echo.
-PAUSE
+PAUSE >nul
