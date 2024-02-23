@@ -1,4 +1,4 @@
-@rem LunarClientTools v1.6 by Vaption
+@rem LunarClientTools v1.7 by Vaption
 @rem https://github.com/Vaption/LunarClientTools
 @rem Please report any issues on Github
 
@@ -21,7 +21,7 @@
 @rem SOFTWARE.
 
 @ECHO OFF
-TITLE LunarClientTools v1.6
+TITLE LunarClientTools v1.7
 
 NET SESSION >nul 2>&1
 IF %ERRORLEVEL% EQU 0 (
