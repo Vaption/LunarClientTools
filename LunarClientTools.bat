@@ -68,7 +68,7 @@ echo [90m###################################################################[0
 echo.
 echo [92mWhat are you trying to do?[0m
 echo.
-echo [91m1.[0m [97mClear Cache Files[0m
+echo [91m1.[0m [97mClear Cached Files[0m
 echo [91m2.[0m [97mNavigate to .lunarclient[0m
 echo [91m3.[0m [97mProfile Management Options[0m
 echo [91m4.[0m [97mSwitch LunarClient's GPU to Dedicated/Integrated[0m
@@ -361,10 +361,8 @@ choice /N /C YC /M "Are you sure you want to proceed? Press Y to Continue, Press
 IF ERRORLEVEL==2 goto :menu
 IF ERRORLEVEL==1 goto :cache-rem-action
 :cache-rem-action
-del "%userprofile%"\.lunarclient\game-cache\* /Q > nul
-del "%userprofile%"\.lunarclient\launcher-cache\* /Q > nul
 del "%userprofile%"\.lunarclient\offline\multiver\cache\* /Q > nul
-echo [32mSuccessfully deleted LunarClient cached files.[0m
+echo [32mSuccessfully deleted LunarClient game cache.[0m
 echo.
 echo.
 echo.
