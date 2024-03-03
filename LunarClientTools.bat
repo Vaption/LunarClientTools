@@ -120,6 +120,8 @@ goto :menu
 :json-archive
 @rem sync with the archive
 @Echo off
+del "%userprofile%"\.lunarclient\.lct-cache\* /Q > nul
+rmdir /s /q "%userprofile%"\.lunarclient\.lct-cache\ > nul
 cls
 echo [90m###################################################################[0m
 echo [90m##[0m                  [96mLunar Client Tools Script[0m                    [90m##[0m
@@ -242,7 +244,7 @@ if %totalProfiles% gtr 8 (
     echo [31mError: More than eight profiles are present![0m
     echo [31mPlease navigate to .lunarclient\settings\game and remove some profiles before running the command.[0m
     del "%userprofile%"\.lunarclient\.lct-cache\* /Q > nul
-    rmdir /s /q "%userprofile%"\.lunarclient\.lct-cache\* > nul
+    rmdir /s /q "%userprofile%"\.lunarclient\.lct-cache\ > nul
     pause >nul
     exit /b
 ) else (
@@ -272,7 +274,7 @@ echo.
 echo [32mSuccessfully generated and replaced profile_manager.json[0m
 echo [32mOperation successful.[0m
 del "%userprofile%"\.lunarclient\.lct-cache\* /Q > nul
-rmdir /s /q "%userprofile%"\.lunarclient\.lct-cache\* > nul
+rmdir /s /q "%userprofile%"\.lunarclient\.lct-cache\ > nul
 pause >nul
 cls
 goto :menu
