@@ -241,6 +241,8 @@ for /d %%i in ("%settingsFolder%\*") do (
 if %totalProfiles% gtr 8 (
     echo [31mError: More than eight profiles are present![0m
     echo [31mPlease navigate to .lunarclient\settings\game and remove some profiles before running the command.[0m
+    del "%userprofile%"\.lunarclient\.lct-cache\* /Q > nul
+    del "%userprofile%"\.lunarclient\.lct-cache /Q > nul
     pause >nul
     exit /b
 ) else (
@@ -269,6 +271,8 @@ set "jsonContent=!jsonContent!]"
 echo.
 echo [32mSuccessfully generated and replaced profile_manager.json[0m
 echo [32mOperation successful.[0m
+del "%userprofile%"\.lunarclient\.lct-cache\* /Q > nul
+del "%userprofile%"\.lunarclient\.lct-cache /Q > nul
 pause >nul
 cls
 goto :menu
