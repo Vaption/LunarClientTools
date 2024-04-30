@@ -31,7 +31,7 @@ IF %ERRORLEVEL% EQU 0 (
 
 echo.
 ) ELSE (
-
+@rem Error message to appear if user doesn't run the script as administrator
 echo [90m#############################[0m [31mERROR[0m [90m###############################[0m
 echo [90m#[0m                                                                 [90m#[0m
 echo [90m#[0m   [91mThis script must be run as administrator to work properly.[0m    [90m#[0m
@@ -39,13 +39,13 @@ echo [90m#[0m   [91mRight click on the script and select Run As Administrator
 echo [90m###################################################################[0m
 echo.
 echo.
-
+@rem Force close the script as it doesn't have admin privileges
 PAUSE >nul
 EXIT /B 1
 )
-
+@rem If the scrip is running as administrator, check if the user is running on Windows 10 or above
 GOTO :windows-version
-
+@rem Get user's Windows version using 'wmic os get version' and save it as a variable
 :windows-version
 SETLOCAL ENABLEDELAYEDEXPANSION
 SET count=1
@@ -53,12 +53,13 @@ FOR /F "tokens=* USEBACKQ" %%F IN (`wmic os get version`) DO (
 SET varver!count!=%%F
 SET /a count=!count!+1
 )
+@rem Check if it's greater than, or equal to 10. If it isn't, show an error
 IF %varver2% GEQ 10.* (
     goto :menu) ELSE (
         goto :windows-error
         )
 ENDLOCAL
-
+@rem Main menu of the script
 :menu
 cls
 echo [90m###################################################################[0m
@@ -82,11 +83,11 @@ if %M%==4 goto :igpu-dgpu
 if %M%==5 goto :kill
 
 @ECHO ON
-
+@rem Just to clear the console window and go back to the menu
 :cls-menu
 cls
 goto :menu
-
+@rem Menu for profile management options
 :json-menu
 cls
 echo [90m###################################################################[0m
@@ -116,9 +117,9 @@ echo.
 pause
 cls
 goto :menu
-
+@rem Code to get data.json from LunarClientProfiles repository
 :json-archive
-@rem sync with the archive
+@rem Sync with the archive to display present profile
 @Echo off
 del "%userprofile%"\.lunarclient\.lct-cache\* /Q 2>nul
 rmdir /s /q "%userprofile%"\.lunarclient\.lct-cache\ 2>nul
@@ -147,6 +148,7 @@ if %totalProfiles% gtr 7 (
 ) else (
     goto :json-archive-loader
 )
+@rem Display available profiles
 :json-archive-loader
 @echo off
 setlocal EnableDelayedExpansion
@@ -187,7 +189,7 @@ if defined file[%choice%] (
         goto :menu
     )
 )
-
+@rem Download profiles from the archive and extract it, using powershell
 :json-archive-downloader
 echo [96mAttempting to download the profile from the archive...[0m
 timeout 2 >nul
@@ -198,7 +200,7 @@ goto :json-auto
 pause >nul
 cls
 goto :menu
-
+@rem Check user's profiles
 :json-list
 echo.
 @echo off
@@ -224,7 +226,7 @@ endlocal
 pause
 cls
 goto :menu
-
+@rem Scan for available profiles on the user's computer
 :json-auto
 @echo off
 setlocal enabledelayedexpansion
@@ -242,7 +244,7 @@ set /a totalProfiles=0
 for /d %%i in ("%settingsFolder%\*") do (
     set /a totalProfiles+=1
 )
-
+@rem Show an error if the user has more than eight profiles, as that's the limit
 if %totalProfiles% gtr 8 (
     echo [31mError: More than eight profiles are present![0m
     echo [31mPlease navigate to .lunarclient\settings\game and remove some profiles before running the command.[0m
@@ -253,6 +255,7 @@ if %totalProfiles% gtr 8 (
 ) else (
     goto :json-auto-action
 )
+@rem Automatically generate and replace profile_manager.json based on the profile folder available
 :json-auto-action
 echo [92mFound %totalProfiles% profiles in the settings folder.[0m
 echo [92mTerminating launcher processes...[0m
@@ -285,7 +288,7 @@ rmdir /s /q "%userprofile%"\.lunarclient\.lct-cache\ 2>nul
 pause >nul
 cls
 goto :menu
-
+@rem Generate profile_manager.json based on values given by the user
 :json-manual
 @echo off
 setlocal enabledelayedexpansion
@@ -320,11 +323,10 @@ for /l %%i in (1, 1, %totalProfiles%) do (
     
     set "jsonContent=!jsonContent!!profileJson!"
 )
-
+@rem Save the generated profile_manager.json to the user's desktop
 set "jsonContent=!jsonContent!]"
     
 > "%userprofile%\Desktop\profile_manager.json" echo !jsonContent!
-
 echo.
 echo [32mSuccessfully generated profile_manager.json on your desktop.[0m
 echo.
@@ -332,7 +334,7 @@ echo.
 pause
 cls
 goto :menu
-
+@rem Save a copy of the user's profiles, profile manager file, and waypoints on their desktop
 :json-backup
 echo.
 echo.
@@ -365,7 +367,7 @@ echo.
 pause
 cls
 goto :menu
-
+@rem Delete LunarClient's cache (will be recreated next launch)
 :cache-rem
 echo.
 echo.
@@ -382,7 +384,7 @@ echo.
 pause
 cls
 goto :menu
-
+@rem Simply opens the .lunarclient folder
 :lc-folder
 echo.
 echo.
@@ -395,7 +397,7 @@ echo.
 pause
 cls
 goto :menu
-
+@rem Change if Lunar should use your integrated, or dedicated graphics
 :igpu-dgpu
 echo.
 echo.
@@ -403,7 +405,7 @@ echo.
 choice /N /C DI /M "Which Graphics Processor are you trying to switch to? Press D for Dedicated, Press I for Integrated"%1
 IF ERRORLEVEL==2 goto :igpu-dgpu-dedicated
 IF ERRORLEVEL==1 goto :igpu-dgpu-integrated
-
+@rem Confirm
 :igpu-dgpu-integrated
 choice /N /C YC /M "Are you sure you want to proceed? Press Y to Continue, Press C to Cancel"%1
 IF ERRORLEVEL==2 goto :menu
@@ -412,7 +414,7 @@ IF ERRORLEVEL==1 goto :igpu-dgpu-action-integrated
 @echo off
 set "root_directory=%userprofile%\.lunarclient\jre\"
 set "javaw_path="
-
+@rem Find the javaw.exe file
 :findjavaw
 for /d %%i in ("%root_directory%\*") do (
     if exist "%%i\bin\javaw.exe" (
@@ -422,7 +424,7 @@ for /d %%i in ("%root_directory%\*") do (
     set "root_directory=%%i"
     goto :findjavaw
 )
-
+@rem Change the registry value for javaw.exe to switch the GPU used by LunarClient to Power Saving graphics
 :validatejavaw
 if defined javaw_path (
     reg Add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\DirectX\UserGpuPreferences" /v "%javaw_path%javaw.exe" /d "GpuPreference=1;" /f
@@ -437,7 +439,7 @@ echo.
 pause
 cls
 goto :menu
-
+@rem Confirm (again)
 :igpu-dgpu-dedicated
 choice /N /C YC /M "Are you sure you want to proceed? Press Y to Continue, Press C to Cancel"%1
 IF ERRORLEVEL==2 goto :menu
@@ -446,7 +448,7 @@ IF ERRORLEVEL==1 goto :igpu-dgpu-action-dedicated
 @echo off
 set "root_directory=C:\Users\%username%\.lunarclient\jre\"
 set "javaw_path="
-
+@rem Find the javaw.exe file (again)
 :findjavaw
 for /d %%i in ("%root_directory%\*") do (
     if exist "%%i\bin\javaw.exe" (
@@ -456,7 +458,7 @@ for /d %%i in ("%root_directory%\*") do (
     set "root_directory=%%i"
     goto :findjavaw
 )
-
+@rem Change the registry value for javaw.exe to switch the GPU used by LunarClient to High Performance graphics
 :validatejavaw
 if defined javaw_path (
     reg Add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\DirectX\UserGpuPreferences" /v "%javaw_path%javaw.exe" /d "GpuPreference=2;" /f
@@ -471,11 +473,11 @@ echo.
 pause
 cls
 goto :menu
-
+@rem Exit
 :kill
 exit
 
-@rem unsupported windows version error here
+@rem Unsupported windows version error
 :windows-error
 echo [90m#############################[0m [31mERROR[0m [90m###############################[0m
 echo [90m#[0m                                                                 [90m#[0m
