@@ -1,4 +1,4 @@
-@rem LunarClientTools v1.8 by Vaption
+@rem LunarClientTools v1.9 by Vaption
 @rem https://github.com/Vaption/LunarClientTools
 @rem Please report any issues on Github
 
@@ -24,7 +24,7 @@
 @rem SOFTWARE.
 
 @ECHO OFF
-TITLE LunarClientTools v1.8
+TITLE LunarClientTools v1.9
 
 NET SESSION >nul 2>&1
 IF %ERRORLEVEL% EQU 0 (
@@ -148,7 +148,7 @@ if %totalProfiles% gtr 7 (
 ) else (
     goto :json-archive-loader
 )
-@rem Display available profiles
+@rem Display available profiles on the archive
 :json-archive-loader
 @echo off
 setlocal EnableDelayedExpansion
@@ -334,7 +334,7 @@ echo.
 pause >nul
 cls
 goto :menu
-@rem Save a copy of the user's profiles, profile manager file, and waypoints on their desktop
+@rem Save a copy of the user's profiles, profile_manager.json, saved_skins.json, and waypoints.json on their desktop
 :json-backup
 echo.
 echo.
