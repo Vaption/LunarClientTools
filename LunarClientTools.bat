@@ -255,6 +255,10 @@ if %totalProfiles% gtr 8 (
 )
 :json-auto-action
 echo [92mFound %totalProfiles% profiles in the settings folder.[0m
+echo [92mTerminating launcher processes...[0m
+taskkill /im "Lunar Client.exe" /f 2>nul
+timeout /t 2 /nobreak >nul
+echo [32mTask completed.[0m
 echo [32mGenerating profiles...[0m
 timeout /t 3 /nobreak >nul
 set "jsonContent=["
