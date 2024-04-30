@@ -114,7 +114,7 @@ if %M%==6 goto :cls-menu
 echo.
 echo.
 echo.
-pause
+pause >nul
 cls
 goto :menu
 @rem Code to get data.json from LunarClientProfiles repository
@@ -200,7 +200,7 @@ goto :json-auto
 pause >nul
 cls
 goto :menu
-@rem Check user's profiles
+@rem Scan settings folder for user profiles to display a list
 :json-list
 echo.
 @echo off
@@ -223,7 +223,7 @@ echo.
 echo.
 echo.
 endlocal
-pause
+pause >nul
 cls
 goto :menu
 @rem Scan for available profiles on the user's computer
@@ -331,7 +331,7 @@ echo.
 echo [32mSuccessfully generated profile_manager.json on your desktop.[0m
 echo.
 echo.
-pause
+pause >nul
 cls
 goto :menu
 @rem Save a copy of the user's profiles, profile manager file, and waypoints on their desktop
@@ -364,7 +364,7 @@ echo [92mFile Path: "%userprofile%"\Desktop\LCT-Profiles[0m
 echo.
 echo.
 echo.
-pause
+pause >nul
 cls
 goto :menu
 @rem Delete LunarClient's cache (will be recreated next launch)
@@ -381,7 +381,7 @@ echo [32mSuccessfully deleted LunarClient game cache.[0m
 echo.
 echo.
 echo.
-pause
+pause >nul
 cls
 goto :menu
 @rem Simply opens the .lunarclient folder
@@ -394,7 +394,7 @@ echo [32mSuccessfully opened .lunarclient in a new window.[0m
 echo.
 echo.
 echo.
-pause
+pause >nul
 cls
 goto :menu
 @rem Change if Lunar should use your integrated, or dedicated graphics
@@ -436,7 +436,7 @@ if defined javaw_path (
 )
 echo.
 echo.
-pause
+pause >nul
 cls
 goto :menu
 @rem Confirm (again)
@@ -470,7 +470,7 @@ if defined javaw_path (
 )
 echo.
 echo.
-pause
+pause >nul
 cls
 goto :menu
 @rem Exit
