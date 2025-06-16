@@ -46,11 +46,8 @@ echo [90m###################################################################[0
 echo.
 echo [92mWhat are you trying to do?[0m
 echo.
-echo [91m1.[0m [97mClear Cached Files[0m
-echo [91m2.[0m [97mNavigate to .lunarclient[0m
-echo [91m3.[0m [97mProfile Management Options[0m
-echo [91m4.[0m [97mSwitch LunarClient's GPU to Dedicated/Integrated[0m
-echo [91m5.[0m [97mExit[0m
+echo [91m1.[0m [97mProfile Management Options[0m
+echo [91m2.[0m [97mSwitch LunarClient's GPU to Dedicated/Integrated[0m
 echo.
 set /P M=[96mType[0m [91m1-5[0m [96mand then press enter[0m[91m:[0m
 if %M%==1 goto :cache-rem
@@ -75,11 +72,8 @@ echo.
 echo [92mProfile Management Options[0m
 echo.
 echo [91m1.[0m [97mImport Profiles From the Archive[0m
-echo [91m2.[0m [97mList All Present Profiles in the Directory[0m
-echo [91m3.[0m [97mAutodetect Profiles and Replace Current Profile Manager[0m
-echo [91m4.[0m [97mManual Profile Manager Generator[0m
-echo [91m5.[0m [97mExport Current Profiles to Desktop[0m
-echo [91m6.[0m [97mCancel[0m
+echo [91m2.[0m [97mAutodetect Profiles and Replace Current Profile Manager[0m
+echo [91m3.[0m [97mCancel[0m
 echo.
 set /P M=[96mType[0m [91m1-6[0m [96mand then press enter[0m[91m:[0m
 if %M%==1 goto :json-archive
@@ -363,18 +357,3 @@ echo.
 pause >nul
 cls
 goto :menu
-@rem Exit
-:kill
-exit
-
-@rem Unsupported windows version error
-:windows-error
-echo [90m#############################[0m [31mERROR[0m [90m###############################[0m
-echo [90m#[0m                                                                 [90m#[0m
-echo [90m#[0m          [91mThis script only works on Windows 10 and above.[0m           [90m#[0m
-echo [90m#[0m         [91mYour current Windows version is not supported[0m           [90m#[0m
-echo [90m#[0m     [91mIf you believe this is an issue, open an issue on Github[0m    [90m#[0m
-echo [90m###################################################################[0m
-echo.
-echo.
-PAUSE >nul
