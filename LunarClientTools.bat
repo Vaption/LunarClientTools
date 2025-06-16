@@ -83,13 +83,7 @@ echo [97mAvailable Profiles on the Archive:[0m
 for /l %%N in (1,1,!count!) do (
     echo %%N. !file[%%N]!
 )
-set "choiceNumbers="
-for /l %%N in (1,1,!count!) do (
-    set "choiceNumbers=!choiceNumbers!%%N"
-)
-choice /C !choiceNumbers! /N /M "[96mEnter the number of the profile you want to import[0m[91m:"
-set "choice=%errorlevel%"
-
+set /p choice=[96mEnter the number of the profile you want to import[0m[91m:
 if defined file[%choice%] (
     set "fileName=!file[%choice%]!.txt"
     set "filePath=%folderPath%\!fileName!"
