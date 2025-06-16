@@ -26,23 +26,16 @@
 @ECHO OFF
 TITLE LunarClientTools v1.9
 
-NET SESSION >nul 2>&1
-IF %ERRORLEVEL% EQU 0 (
-
-echo.
-) ELSE (
-@rem Error message to appear if user doesn't run the script as administrator
-echo [90m#############################[0m [31mERROR[0m [90m###############################[0m
-echo [90m#[0m                                                                 [90m#[0m
-echo [90m#[0m   [91mThis script must be run as administrator to work properly.[0m    [90m#[0m
-echo [90m#[0m   [91mRight click on the script and select Run As Administrator[0m     [90m#[0m
-echo [90m###################################################################[0m
-echo.
-echo.
-@rem Force close the script as it doesn't have admin privileges
-PAUSE >nul
-EXIT /B 1
+@rem Check for administrator privileges
+>nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
+if %errorlevel% NEQ 0 (
+    echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
+    echo UAC.ShellExecute "cmd.exe", "/c ""%~s0""", "", "runas", 1 >> "%temp%\getadmin.vbs"
+    "%temp%\getadmin.vbs"
+    del "%temp%\getadmin.vbs"
+    exit /b
 )
+
 @rem If the scrip is running as administrator, check if the user is running on Windows 10 or above
 GOTO :windows-version
 @rem Get user's Windows version using 'wmic os get version' and save it as a variable
