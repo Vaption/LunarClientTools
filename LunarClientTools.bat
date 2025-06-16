@@ -180,30 +180,7 @@ goto :json-auto
 pause >nul
 cls
 goto :menu
-@rem Scan settings folder for user profiles to display a list
-:json-list
-echo.
-@echo off
-setlocal
-echo [32mScanning your profiles directory...[0m
-timeout /t 4 /nobreak >nul
-set "path=%userprofile%\.lunarclient\settings\game"
-set count=0
-for /d %%G in ("%path%\*") do (
-    set /a count+=1
-)
-echo [92mYou have a total of %count%/8 profiles:[0m
-echo.
-for /d %%G in ("%path%\*") do (
-    echo - %%~nG
-)
-echo.
-echo.
-echo.
-endlocal
-pause >nul
-cls
-goto :menu
+
 @rem Scan for available profiles on the user's computer
 :json-auto
 @echo off
@@ -300,41 +277,6 @@ set "jsonContent=!jsonContent!]"
 > "%userprofile%\Desktop\profile_manager.json" echo !jsonContent!
 echo.
 echo [32mSuccessfully generated profile_manager.json on your desktop.[0m
-echo.
-echo.
-pause >nul
-cls
-goto :menu
-
-@rem Save a copy of the user's profiles, profile_manager.json, saved_skins.json, and waypoints.json on their desktop
-:json-backup
-echo.
-echo.
-echo.
-choice /N /C YC /M "Are you sure you want to proceed? Press Y to Continue, Press C to Cancel"%1
-IF ERRORLEVEL==2 goto :menu
-IF ERRORLEVEL==1 goto :json-backup-action
-
-:json-backup-action
-mkdir "%userprofile%"\Desktop\"LCT-Profiles"
-xcopy /s /v "%userprofile%"\.lunarclient\settings\game "%userprofile%"\Desktop\LCT-Profiles /Q > nul
-del "%userprofile%"\Desktop\LCT-Profiles\accounts.json
-del "%userprofile%"\Desktop\LCT-Profiles\alert_manager.json
-del "%userprofile%"\Desktop\LCT-Profiles\features.json
-del "%userprofile%"\Desktop\LCT-Profiles\global_options.json
-del "%userprofile%"\Desktop\LCT-Profiles\internal.json
-del "%userprofile%"\Desktop\LCT-Profiles\knownServers.json
-del "%userprofile%"\Desktop\LCT-Profiles\language.json
-del "%userprofile%"\Desktop\LCT-Profiles\main_menu_theme_manager.json
-del "%userprofile%"\Desktop\LCT-Profiles\metadata_fallback.json
-del "%userprofile%"\Desktop\LCT-Profiles\muted_users.json
-del "%userprofile%"\Desktop\LCT-Profiles\rule-features.json
-del "%userprofile%"\Desktop\LCT-Profiles\statistics.json
-del "%userprofile%"\Desktop\LCT-Profiles\version
-echo [32mSuccessfully copied your profiles to your desktop.[0m
-echo [92mFile Path: "%userprofile%"\Desktop\LCT-Profiles[0m
-%SystemRoot%\explorer.exe "%userprofile%\Desktop\LCT-Profiles\"
-echo.
 echo.
 echo.
 pause >nul
