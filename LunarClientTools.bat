@@ -48,12 +48,11 @@ echo [92mWhat are you trying to do?[0m
 echo.
 echo [91m1.[0m [97mImport Profiles From the Archive[0m
 echo [91m2.[0m [97mAuto-detect Profiles and Replace Current Profile Manager[0m
-echo [91m2.[0m [97mSwitch LunarClient's GPU to Dedicated/Integrated[0m
-echo.
-set /P M=[96mType[0m [91m1-5[0m [96mand then press enter[0m[91m:[0m
-if %M%==1 goto :json-archive
-if %M%==2 goto :json-auto
-if %M%==3 goto :igpu-dgpu
+echo [91m3.[0m [97mSwitch LunarClient's GPU to Dedicated/Integrated[0m
+choice /C 123 /N
+if errorlevel 3 goto :igpu-dgpu
+if errorlevel 2 goto :json-auto
+if errorlevel 1 goto :json-archive
 
 @rem Code to get data.json from LunarClientProfiles repository
 :json-archive
@@ -70,26 +69,6 @@ echo [90m##[0m                  [96mLunar Client Tools Script[0m            
 echo [90m##[0m          [36mhttps://github.com/Vaption/LunarClientTools[0m          [90m##[0m
 echo [90m###################################################################[0m
 echo.
-echo [92mScanning current available profiles...[0m
-timeout /t 3 /nobreak >nul
-set "settingsFolder=%userprofile%\.lunarclient\settings\game"
-set /a totalProfiles=0
-for /d %%i in ("%settingsFolder%\*") do (
-    set /a totalProfiles+=1
-)
-if %totalProfiles% gtr 7 (
-    echo [31mError: More than seven profiles are present![0m
-    echo [31mMaximum amount of profiles allowed is eight, importing profiles isn't possible.[0m
-    echo [31mPlease navigate to .lunarclient\settings\game and remove some profiles before running the command.[0m
-    pause >nul
-    exit /b
-) else (
-    goto :json-archive-loader
-)
-@rem Display available profiles on the archive
-
-:json-archive-loader
-@echo off
 setlocal EnableDelayedExpansion
 set "folderPath=%userprofile%\.lunarclient\.lct-cache"
 set /a count=0
@@ -104,7 +83,13 @@ echo [97mAvailable Profiles on the Archive:[0m
 for /l %%N in (1,1,!count!) do (
     echo %%N. !file[%%N]!
 )
-set /p choice=[96mEnter the number of the profile you want to import[0m[91m:[0m
+set "choiceNumbers="
+for /l %%N in (1,1,!count!) do (
+    set "choiceNumbers=!choiceNumbers!%%N"
+)
+choice /C !choiceNumbers! /N /M "[96mEnter the number of the profile you want to import[0m[91m:"
+set "choice=%errorlevel%"
+
 if defined file[%choice%] (
     set "fileName=!file[%choice%]!.txt"
     set "filePath=%folderPath%\!fileName!"
@@ -153,24 +138,12 @@ if not exist "%settingsFolder%" (
     exit /b
 )
 echo [92mScanning the settings folder...[0m
-timeout /t 3 /nobreak >nul
+timeout /t 2 /nobreak >nul
 set /a totalProfiles=0
 for /d %%i in ("%settingsFolder%\*") do (
     set /a totalProfiles+=1
 )
-@rem Show an error if the user has more than eight profiles, as that's the limit
-if %totalProfiles% gtr 8 (
-    echo [31mError: More than eight profiles are present![0m
-    echo [31mPlease navigate to .lunarclient\settings\game and remove some profiles before running the command.[0m
-    del "%userprofile%"\.lunarclient\.lct-cache\* /Q 2>nul
-    rmdir /s /q "%userprofile%"\.lunarclient\.lct-cache\ 2>nul
-    pause >nul
-    exit /b
-) else (
-    goto :json-auto-action
-)
 @rem Automatically generate and replace profile_manager.json based on the profile folder available
-:json-auto-action
 echo [92mFound %totalProfiles% profiles in the settings folder.[0m
 echo [92mTerminating launcher processes...[0m
 taskkill /im "Lunar Client.exe" /f 2>nul
@@ -181,9 +154,7 @@ timeout /t 3 /nobreak >nul
 set "jsonContent=["
 for /d %%i in ("%settingsFolder%\*") do (
     set "folderName=%%~nxi"
-    
     set "profileJson={"name":"!folderName!","displayName":"!folderName!","default":false,"active":false,"iconName":"","server":""}"
-    
     set "jsonContent=!jsonContent!!profileJson!"
     set /a totalProfiles-=1
     if !totalProfiles! gtr 0 (
@@ -191,11 +162,9 @@ for /d %%i in ("%settingsFolder%\*") do (
     )
 )
 set "jsonContent=!jsonContent!]"
-    
 > "%userprofile%\.lunarclient\settings\game\profile_manager.json" echo !jsonContent!
 echo.
 echo [32mSuccessfully generated and replaced profile_manager.json[0m
-echo [32mOperation successful.[0m
 del "%userprofile%"\.lunarclient\.lct-cache\* /Q 2>nul
 rmdir /s /q "%userprofile%"\.lunarclient\.lct-cache\ 2>nul
 pause >nul
