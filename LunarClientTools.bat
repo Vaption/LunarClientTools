@@ -235,47 +235,6 @@ rmdir /s /q "%userprofile%"\.lunarclient\.lct-cache\ 2>nul
 pause >nul
 cls
 goto :menu
-@rem Generate profile_manager.json based on values given by the user
-:json-manual
-@echo off
-setlocal enabledelayedexpansion
-echo [36mEnter the total number of profiles you want to add (Max=8):[0m
-set /p totalProfiles=
-if %totalProfiles% gtr 8 (
-    echo [31mError: Maximum number of profiles exceeded. Please enter a number between 1 and 8.[0m
-    pause >nul
-    cls
-    goto :menu
-)
-echo [32mGenerating profiles...[0m
-echo.
-set "jsonContent=["
-for /l %%i in (1, 1, %totalProfiles%) do (
-    echo [96mProfile %%i[0m
-    echo [93mEnter the name for profile %%i:[0m
-    set /p profileName=
-    echo [93mEnter the display name for profile %%i:[0m
-    set /p displayName=
-    
-    if %%i==1 (
-        set "profileJson={"name":"!profileName!","displayName":"!displayName!","default":true,"active":true,"iconName":"","server":""}"
-    ) else (
-        set "profileJson=,{"name":"!profileName!","displayName":"!displayName!","default":false,"active":false,"iconName":"","server":""}"
-    )
-    
-    set "jsonContent=!jsonContent!!profileJson!"
-)
-@rem Save the generated profile_manager.json to the user's desktop
-set "jsonContent=!jsonContent!]"
-    
-> "%userprofile%\Desktop\profile_manager.json" echo !jsonContent!
-echo.
-echo [32mSuccessfully generated profile_manager.json on your desktop.[0m
-echo.
-echo.
-pause >nul
-cls
-goto :menu
 
 @rem Change if Lunar should use your integrated, or dedicated graphics
 :igpu-dgpu
