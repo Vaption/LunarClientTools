@@ -138,13 +138,11 @@ for /d %%i in ("%settingsFolder%\*") do (
     set /a totalProfiles+=1
 )
 @rem Automatically generate and replace profile_manager.json based on the profile folder available
-echo [92mFound %totalProfiles% profiles in the settings folder.[0m
 echo [92mTerminating launcher processes...[0m
 taskkill /im "Lunar Client.exe" /f 2>nul
-timeout /t 2 /nobreak >nul
-echo [32mTask completed.[0m
+timeout /t 1 /nobreak >nul
 echo [32mGenerating profiles...[0m
-timeout /t 3 /nobreak >nul
+timeout /t 2 /nobreak >nul
 set "jsonContent=["
 for /d %%i in ("%settingsFolder%\*") do (
     set "folderName=%%~nxi"
@@ -165,83 +163,49 @@ pause >nul
 cls
 goto :menu
 
-@rem Change if Lunar should use your integrated, or dedicated graphics
 :igpu-dgpu
-echo.
-echo.
-echo.
-choice /N /C DI /M "Which Graphics Processor are you trying to switch to? Press D for Dedicated, Press I for Integrated"%1
-IF ERRORLEVEL==2 goto :igpu-dgpu-dedicated
-IF ERRORLEVEL==1 goto :igpu-dgpu-integrated
-
-@rem Confirm
-:igpu-dgpu-integrated
-choice /N /C YC /M "Are you sure you want to proceed? Press Y to Continue, Press C to Cancel"%1
-IF ERRORLEVEL==2 goto :menu
-IF ERRORLEVEL==1 goto :igpu-dgpu-action-integrated
-:igpu-dgpu-action-integrated
 @echo off
-set "root_directory=%userprofile%\.lunarclient\jre\"
-set "javaw_path="
-@rem Find the javaw.exe file
-:findjavaw
+setlocal enabledelayedexpansion
+set "root_directory=%userprofile%\.lunarclient\jre"
+set "gpu_preference="
+set "found_javaw=false"
+echo.
+choice /N /C DI /M "Which Graphics Processor are you trying to switch to? Press D for Dedicated, Press I for Integrated"
+if %errorlevel% equ 2 (
+    set "gpu_preference=2"
+) else if %errorlevel% equ 1 (
+    set "gpu_preference=1"
+)
+if not defined gpu_preference (
+    echo Invalid choice or cancelled.
+    pause >nul
+)
+echo.
+choice /N /C YC /M "Are you sure you want to proceed? Press Y to Continue, Press C to Cancel"
+if %errorlevel% equ 2 goto :menu
+echo.
+echo Scanning for javaw.exe files inside: %root_directory%
+echo.
+@rem Scan for Java installations
 for /d %%i in ("%root_directory%\*") do (
-    if exist "%%i\bin\javaw.exe" (
-        set "javaw_path=%%i\bin\"
-        goto :validatejavaw
+    for /d %%j in ("%%i\*") do (
+        set "javaw_path=%%j\bin\javaw.exe"
+        echo Checking: !javaw_path!
+        if exist "!javaw_path!" (
+            echo Found: !javaw_path!
+            reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\DirectX\UserGpuPreferences" /v "!javaw_path!" /d "GpuPreference=!gpu_preference!;" /f
+            set "found_javaw=true"
+            echo Applied GPU preference: !gpu_preference! to !javaw_path!
+            echo.
+        )
     )
-    set "root_directory=%%i"
-    goto :findjavaw
 )
-
-@rem Change the registry value for javaw.exe to switch the GPU used by LunarClient to Power Saving graphics
-:validatejavaw
-if defined javaw_path (
-    reg Add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\DirectX\UserGpuPreferences" /v "%javaw_path%javaw.exe" /d "GpuPreference=1;" /f
-    color 0A
-    echo Successfully switched LunarClient's GPU to Power Saving.
+if "!found_javaw!"=="false" (
+    echo No javaw.exe found in any subfolder.
 ) else (
-    color 0C
-    echo LCT was unable to locate javaw.exe, relaunch the game for the file to be redownloaded.
-)
-echo.
-echo.
-pause >nul
-cls
-goto :menu
-
-@rem Confirm (again)
-:igpu-dgpu-dedicated
-choice /N /C YC /M "Are you sure you want to proceed? Press Y to Continue, Press C to Cancel"%1
-IF ERRORLEVEL==2 goto :menu
-IF ERRORLEVEL==1 goto :igpu-dgpu-action-dedicated
-:igpu-dgpu-action-dedicated
-@echo off
-set "root_directory=C:\Users\%username%\.lunarclient\jre\"
-set "javaw_path="
-@rem Find the javaw.exe file (again)
-:findjavaw
-for /d %%i in ("%root_directory%\*") do (
-    if exist "%%i\bin\javaw.exe" (
-        set "javaw_path=%%i\bin\"
-        goto :validatejavaw
+    if "!gpu_preference!"=="1" (
+        echo All matching javaw.exe files set to Dedicated GPU (High Performance^).
+    ) else (
+        echo All matching javaw.exe files set to Integrated GPU (Power Saving^).
     )
-    set "root_directory=%%i"
-    goto :findjavaw
 )
-
-@rem Change the registry value for javaw.exe to switch the GPU used by LunarClient to High Performance graphics
-:validatejavaw
-if defined javaw_path (
-    reg Add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\DirectX\UserGpuPreferences" /v "%javaw_path%javaw.exe" /d "GpuPreference=2;" /f
-    color 0A
-    echo Successfully switched LunarClient's GPU to High Performance.
-) else (
-    color 0C
-    echo LCT was unable to locate javaw.exe, relaunch the game for the file to be redownloaded.
-)
-echo.
-echo.
-pause >nul
-cls
-goto :menu
