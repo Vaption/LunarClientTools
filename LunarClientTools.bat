@@ -46,48 +46,14 @@ echo [90m###################################################################[0
 echo.
 echo [92mWhat are you trying to do?[0m
 echo.
-echo [91m1.[0m [97mProfile Management Options[0m
+echo [91m1.[0m [97mImport Profiles From the Archive[0m
+echo [91m2.[0m [97mAuto-detect Profiles and Replace Current Profile Manager[0m
 echo [91m2.[0m [97mSwitch LunarClient's GPU to Dedicated/Integrated[0m
 echo.
 set /P M=[96mType[0m [91m1-5[0m [96mand then press enter[0m[91m:[0m
-if %M%==1 goto :cache-rem
-if %M%==2 goto :lc-folder
-if %M%==3 goto :json-menu
-if %M%==4 goto :igpu-dgpu
-if %M%==5 goto :kill
-
-@ECHO ON
-@rem Just to clear the console window and go back to the menu
-:cls-menu
-cls
-goto :menu
-@rem Menu for profile management options
-:json-menu
-cls
-echo [90m###################################################################[0m
-echo [90m##[0m                  [96mLunar Client Tools Script[0m                    [90m##[0m
-echo [90m##[0m          [36mhttps://github.com/Vaption/LunarClientTools[0m          [90m##[0m
-echo [90m###################################################################[0m
-echo.
-echo [92mProfile Management Options[0m
-echo.
-echo [91m1.[0m [97mImport Profiles From the Archive[0m
-echo [91m2.[0m [97mAutodetect Profiles and Replace Current Profile Manager[0m
-echo [91m3.[0m [97mCancel[0m
-echo.
-set /P M=[96mType[0m [91m1-6[0m [96mand then press enter[0m[91m:[0m
 if %M%==1 goto :json-archive
-if %M%==2 goto :json-list
-if %M%==3 goto :json-auto
-if %M%==4 goto :json-manual
-if %M%==5 goto :json-backup
-if %M%==6 goto :cls-menu
-echo.
-echo.
-echo.
-pause >nul
-cls
-goto :menu
+if %M%==2 goto :json-auto
+if %M%==3 goto :igpu-dgpu
 
 @rem Code to get data.json from LunarClientProfiles repository
 :json-archive
