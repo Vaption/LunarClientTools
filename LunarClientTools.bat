@@ -36,22 +36,6 @@ if %errorlevel% NEQ 0 (
     exit /b
 )
 
-@rem If the scrip is running as administrator, check if the user is running on Windows 10 or above
-GOTO :windows-version
-@rem Get user's Windows version using 'wmic os get version' and save it as a variable
-:windows-version
-SETLOCAL ENABLEDELAYEDEXPANSION
-SET count=1
-FOR /F "tokens=* USEBACKQ" %%F IN (`wmic os get version`) DO (
-SET varver!count!=%%F
-SET /a count=!count!+1
-)
-@rem Check if it's greater than, or equal to 10. If it isn't, show an error
-IF %varver2% GEQ 10.* (
-    goto :menu) ELSE (
-        goto :windows-error
-        )
-ENDLOCAL
 @rem Main menu of the script
 :menu
 cls
