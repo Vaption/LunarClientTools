@@ -344,23 +344,6 @@ echo.
 pause >nul
 cls
 goto :menu
-@rem Delete LunarClient's cache (will be recreated next launch)
-:cache-rem
-echo.
-echo.
-echo.
-choice /N /C YC /M "Are you sure you want to proceed? Press Y to Continue, Press C to Cancel"%1
-IF ERRORLEVEL==2 goto :menu
-IF ERRORLEVEL==1 goto :cache-rem-action
-:cache-rem-action
-del "%userprofile%"\.lunarclient\offline\multiver\cache\* /Q > nul
-echo [32mSuccessfully deleted LunarClient game cache.[0m
-echo.
-echo.
-echo.
-pause >nul
-cls
-goto :menu
 @rem Simply opens the .lunarclient folder
 :lc-folder
 echo.
