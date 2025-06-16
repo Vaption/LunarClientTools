@@ -94,6 +94,7 @@ echo.
 pause >nul
 cls
 goto :menu
+
 @rem Code to get data.json from LunarClientProfiles repository
 :json-archive
 @rem Sync with the archive to display present profile
@@ -126,6 +127,7 @@ if %totalProfiles% gtr 7 (
     goto :json-archive-loader
 )
 @rem Display available profiles on the archive
+
 :json-archive-loader
 @echo off
 setlocal EnableDelayedExpansion
@@ -166,6 +168,7 @@ if defined file[%choice%] (
         goto :menu
     )
 )
+
 @rem Download profiles from the archive and extract it, using powershell
 :json-archive-downloader
 echo [96mAttempting to download the profile from the archive...[0m
@@ -186,13 +189,11 @@ echo [32mScanning your profiles directory...[0m
 timeout /t 4 /nobreak >nul
 set "path=%userprofile%\.lunarclient\settings\game"
 set count=0
-
 for /d %%G in ("%path%\*") do (
     set /a count+=1
 )
 echo [92mYou have a total of %count%/8 profiles:[0m
 echo.
-
 for /d %%G in ("%path%\*") do (
     echo - %%~nG
 )
@@ -208,7 +209,6 @@ goto :menu
 @echo off
 setlocal enabledelayedexpansion
 set "settingsFolder=%userprofile%\.lunarclient\settings\game"
-
 if not exist "%settingsFolder%" (
     echo [91mThe settings folder does not exist in .lunarclient[0m
     echo [91mLCT was unable to detect any profile in your settings directory.[0m
@@ -242,7 +242,6 @@ echo [32mTask completed.[0m
 echo [32mGenerating profiles...[0m
 timeout /t 3 /nobreak >nul
 set "jsonContent=["
-
 for /d %%i in ("%settingsFolder%\*") do (
     set "folderName=%%~nxi"
     
@@ -269,22 +268,17 @@ goto :menu
 :json-manual
 @echo off
 setlocal enabledelayedexpansion
-
 echo [36mEnter the total number of profiles you want to add (Max=8):[0m
 set /p totalProfiles=
-
 if %totalProfiles% gtr 8 (
     echo [31mError: Maximum number of profiles exceeded. Please enter a number between 1 and 8.[0m
     pause >nul
     cls
     goto :menu
 )
-
 echo [32mGenerating profiles...[0m
 echo.
-
 set "jsonContent=["
-
 for /l %%i in (1, 1, %totalProfiles%) do (
     echo [96mProfile %%i[0m
     echo [93mEnter the name for profile %%i:[0m
@@ -311,6 +305,7 @@ echo.
 pause >nul
 cls
 goto :menu
+
 @rem Save a copy of the user's profiles, profile_manager.json, saved_skins.json, and waypoints.json on their desktop
 :json-backup
 echo.
@@ -319,6 +314,7 @@ echo.
 choice /N /C YC /M "Are you sure you want to proceed? Press Y to Continue, Press C to Cancel"%1
 IF ERRORLEVEL==2 goto :menu
 IF ERRORLEVEL==1 goto :json-backup-action
+
 :json-backup-action
 mkdir "%userprofile%"\Desktop\"LCT-Profiles"
 xcopy /s /v "%userprofile%"\.lunarclient\settings\game "%userprofile%"\Desktop\LCT-Profiles /Q > nul
@@ -344,19 +340,7 @@ echo.
 pause >nul
 cls
 goto :menu
-@rem Simply opens the .lunarclient folder
-:lc-folder
-echo.
-echo.
-echo.
-%SystemRoot%\explorer.exe "%userprofile%\.lunarclient\"
-echo [32mSuccessfully opened .lunarclient in a new window.[0m
-echo.
-echo.
-echo.
-pause >nul
-cls
-goto :menu
+
 @rem Change if Lunar should use your integrated, or dedicated graphics
 :igpu-dgpu
 echo.
@@ -365,6 +349,7 @@ echo.
 choice /N /C DI /M "Which Graphics Processor are you trying to switch to? Press D for Dedicated, Press I for Integrated"%1
 IF ERRORLEVEL==2 goto :igpu-dgpu-dedicated
 IF ERRORLEVEL==1 goto :igpu-dgpu-integrated
+
 @rem Confirm
 :igpu-dgpu-integrated
 choice /N /C YC /M "Are you sure you want to proceed? Press Y to Continue, Press C to Cancel"%1
@@ -384,6 +369,7 @@ for /d %%i in ("%root_directory%\*") do (
     set "root_directory=%%i"
     goto :findjavaw
 )
+
 @rem Change the registry value for javaw.exe to switch the GPU used by LunarClient to Power Saving graphics
 :validatejavaw
 if defined javaw_path (
@@ -399,6 +385,7 @@ echo.
 pause >nul
 cls
 goto :menu
+
 @rem Confirm (again)
 :igpu-dgpu-dedicated
 choice /N /C YC /M "Are you sure you want to proceed? Press Y to Continue, Press C to Cancel"%1
@@ -418,6 +405,7 @@ for /d %%i in ("%root_directory%\*") do (
     set "root_directory=%%i"
     goto :findjavaw
 )
+
 @rem Change the registry value for javaw.exe to switch the GPU used by LunarClient to High Performance graphics
 :validatejavaw
 if defined javaw_path (
