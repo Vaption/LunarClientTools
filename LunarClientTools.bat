@@ -170,7 +170,7 @@ set "root_directory=%userprofile%\.lunarclient\jre"
 set "gpu_preference="
 set "found_javaw=false"
 echo.
-choice /N /C DI /M "Which Graphics Processor are you trying to switch to? Press D for Dedicated, Press I for Integrated"
+choice /N /C ID /M "Which Graphics Processor are you trying to switch to? Press D for Dedicated, Press I for Integrated"
 if %errorlevel% equ 2 (
     set "gpu_preference=2"
 ) else if %errorlevel% equ 1 (
@@ -208,4 +208,5 @@ if "!found_javaw!"=="false" (
     ) else (
         echo All matching javaw.exe files set to Integrated GPU (Power Saving^).
     )
+
 )
