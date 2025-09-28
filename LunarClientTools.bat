@@ -1,4 +1,4 @@
-@rem LunarClientTools v1.9 by Vaption
+@rem LunarClientTools v2.0 by Vaption
 @rem https://github.com/Vaption/LunarClientTools
 @rem Please report any issues on Github
 
@@ -24,10 +24,10 @@
 @rem SOFTWARE.
 
 @ECHO OFF
-TITLE LunarClientTools v1.9
+TITLE LunarClientTools v2.0
 
 @rem Check for administrator privileges
->nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
+>nul 2>&1 "%SYSTEMROOT%\System32\icacls.exe" "%SYSTEMROOT%\System32\config\system"
 if %errorlevel% NEQ 0 (
     echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
     echo UAC.ShellExecute "cmd.exe", "/c ""%~s0""", "", "runas", 1 >> "%temp%\getadmin.vbs"
@@ -210,3 +210,4 @@ if "!found_javaw!"=="false" (
     )
 
 )
+
